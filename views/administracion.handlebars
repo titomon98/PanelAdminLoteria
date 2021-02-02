@@ -1,0 +1,82 @@
+<main class="lista-vacantes">
+    <h2>Navegación</h2>
+    <div class="botones separador">
+        <a href="/editar-perfil" class="btn btn-azul">Editar Perfil</a>
+        <a href="/premios/nuevo" class="btn btn-verde">Nuevo Premio</a>
+        <a href="/imagenes/nueva" class="btn btn-verde">Nueva Imagen</a>
+        <a href="/crear-cuenta" class="btn btn-verde">Nuevo Usuario</a>
+    </div>
+
+    <h2>Premios actuales</h2>
+
+    <div class="panel-administracion">
+        {{#if premios.length}}
+            {{#each premios}}
+                    <div class="vacante ">
+                        <div class="caja">
+                            <h3>{{nombre}}</h3>
+                            <p class="puesto">{{contacto}}</p>                        
+                        </div>
+
+                        <div class="centrar-vertical caja">
+                            <a href="/premios/{{url}}" class="btn btn-azul">Ver</a>
+                        </div>
+                    
+                        <div class="centrar-vertical caja">
+                            <a href="/premios/editar/{{url}}" class="btn btn-verde">Editar</a>
+                        </div>
+                        <div class="centrar-vertical caja">
+                            <a href="#" data-eliminar={{id}} class="btn btn-rojo">Eliminar</a>
+                        </div>
+                    </div>
+            {{/each}}
+        {{else}}
+            <p>No hay premios, crea uno</p>
+        {{/if}}
+    </div>
+
+    <h2>Imagenes para cartones</h2>
+
+    <div class="panel-administracion">
+        {{#if imagenes.length}}
+            {{#each imagenes}}
+                <div class="vacante ">
+                    <div class="caja">
+                        <h3>{{nombre}}</h3>                
+                    </div>
+                    <div class="centrar-vertical caja">
+                        <a href="/imagenes/{{url}}" class="btn btn-azul">Ver</a>
+                    </div>
+                    <div class="centrar-vertical caja">
+                        <a href="/imagenes/editar/{{url}}" class="btn btn-verde">Editar</a>
+                    </div>
+                    <div class="centrar-vertical caja">
+                        <a href="#" data-eliminar={{id}} class="btn btn-rojo">Eliminar</a>
+                    </div>
+                </div>
+            {{/each}}
+        {{else}}
+            <p>No hay imágenes, crea una</p>
+        {{/if}}
+    </div>
+
+    <h2>Usuarios actuales</h2>
+
+    <div class="panel-administracion">
+        {{#if usuarios.length}}
+            {{#each usuarios}}
+                <div class="vacante ">
+                    <div class="caja">
+                        <h3>{{nombre}}</h3>
+                        <p class="puesto">{{email}}</p>
+                    </div>
+                    <div class="centrar-vertical caja">
+                        <a href="/usuarios/{{url}}" class="btn btn-azul">Ver</a>
+                    </div>
+                </div>
+            {{/each}}
+        {{else}}
+            <p>No hay usuarios, crea uno</p>
+        {{/if}}
+    </div>
+</main>

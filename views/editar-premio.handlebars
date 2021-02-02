@@ -1,0 +1,60 @@
+<main class="contenedor">
+    <form action="/premios/editar/{{premio.url}}" method="POST" class="default-form">
+        <h3>Información General</h3>
+
+        <div class="campo">
+            <label>Nombre</label>
+            <input type="text" value="{{premio.nombre}}" name="nombre" placeholder="Nombre del premio"  required>
+        </div>
+        
+        <div class="campo">
+            <label>Tipo de premio</label>
+            <select name="tipo">
+                {{#tipoPremio premio.tipo}}
+                    <option value="" disabled selected>-- Selecciona --</option>
+                    <option value="Amarillo">Amarillo</option>
+                    <option value="Morado">Morado</option>
+                    <option value="Blanco">Blanco</option>
+                    <option value="Rojo">Rojo</option>
+                {{/tipoPremio}}
+            </select>
+        </div>
+        <div class="campo">
+            <label>Cantidad de fichas</label>
+            <input type="number" value="{{premio.fichas}}" type="number" min="1" name="fichas" placeholder="Cantidad de fichas necesarias" required>
+        </div>
+
+        <div class="campo">
+            <label>Direccion</label>
+            <input type="text" value="{{premio.direccion}}" name="direccion" placeholder="Direccion para recoger premio" required>
+        </div>
+        <div class="campo">
+            <label>Contacto</label>
+            <input type="text" value="{{premio.contacto}}" name="contacto" placeholder="Contacto del negocio"  required>
+        </div>
+        <div class="campo">
+            <label>Empresa</label>
+            <input type="text" value="{{premio.empresa}}" name="empresa" placeholder="Empresa"  required>
+        </div>
+        <div class="campo">
+            <label>Fecha de vencimiento</label>
+            <input type="date" value="{{vencimiento}}" name="vencimiento" required>
+        </div>
+         <div class="campo">
+            <label>Imagen</label>
+            <input type="text" value="{{premio.imagen}}" name="imagen" placeholder="Imagen del premio"  required>
+        </div>
+        <h3>Descripción del Premio</h3>
+        <div class="campo descripcion">
+            <label>Descripción</label>
+            <input type="hidden" id="x" value="{{{premio.descripcion}}}" name="descripcion">
+            <trix-editor input="x"></trix-editor>
+        </div>
+
+        <div class="campo centrar-horizontal">
+            <input type="submit" value="Guardar Cambios" class="btn btn-azul">
+        </div>
+
+
+    </form>
+</main>

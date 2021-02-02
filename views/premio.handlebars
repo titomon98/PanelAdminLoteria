@@ -1,0 +1,64 @@
+<div class="contenido-superior vacante contenedor">
+    <div class="caja">
+        <p class="etiqueta">Nombre</p>
+        <p class="nombre">{{premio.nombre}}</p>
+    </div>
+    <div class="caja">
+        <p class="etiqueta">Cantidad de fichas</p>
+        <p class="nombre">{{premio.fichas}}</p>
+    </div>
+    <div class="caja">
+        <p class="etiqueta">Tipo de premio</p>
+        <p class="nombre">{{premio.tipo}}</p>
+    </div>
+</div>
+
+<div class="contenido-superior vacante contenedor">
+    <div class="caja">
+        <p class="etiqueta">Dirección</p>
+        <p class="nombre">{{premio.direccion}}</p>
+    </div>
+    <div class="caja">
+        <p class="etiqueta">Empresa</p>
+        <p class="nombre">{{premio.empresa}}</p>
+    </div>
+    <div class="caja">
+        <p class="etiqueta">Contacto</p>
+        <p class="nombre">{{premio.contacto}}</p>
+    </div>
+</div>
+
+<div class="contenido-superior vacante contenedor">
+    <div class="caja">
+        <p class="etiqueta">Creación</p>
+        <p class="nombre">{{premio.creacion}}</p>
+    </div>
+    <div class="caja">
+        <p class="etiqueta">Vencimiento</p>
+        <p class="nombre">{{premio.vencimiento}}</p>
+    </div>
+    <div class="caja">
+        <p class="etiqueta">Imagen</p>
+        <p class="nombre">Aquí debe ponerse la imagen</p>
+    </div>
+</div>
+
+
+
+<div class="vacante-contenedor contenedor">
+    <main class="contenido">
+        <h2>Descripción del premio</h2>
+        {{#if premio.descripcion}}
+            <div class="vacante-descripcion">
+                {{{premio.descripcion}}}
+            </div>
+        {{else}}
+            <div class="vacante-descripcion">
+                No se ha agregado una descripción
+            </div>
+        {{/if}}
+
+
+        <a href="/premios/editar/{{premio.url}}" class="btn btn-azul editar-btn">Editar Premio</a>
+    </main>
+</div>

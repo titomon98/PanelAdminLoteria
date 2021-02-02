@@ -1,0 +1,52 @@
+<main class="contenedor">
+    <form action="/premios/nuevo" method="POST" class="default-form">
+        <h3>Información General</h3>
+        <div class="campo">
+            <label>Nombre</label>
+            <input type="text" name="nombre" placeholder="Nombre del premio">
+        </div>
+        <div class="campo">
+            <label>Tipo de premio</label>
+            <select name="tipo">
+                <option value="" disabled selected>-- Selecciona --</option>
+                <option value="Amarillo">Amarillo</option>
+                <option value="Morado">Morado</option>
+                <option value="Blanco">Blanco</option>
+                <option value="Rojo">Rojo</option>
+            </select>
+        </div>
+        <div class="campo">
+            <label>Cantidad de fichas</label>
+            <input type="number" min="1" name="fichas" placeholder="Cantidad de fichas necesarias">
+        </div>        
+        <div class="campo">
+            <label>Dirección</label>
+            <input type="text" name="direccion" placeholder="Dirección para recoger premio">
+        </div>
+        <div class="campo">
+            <label>Contacto</label>
+            <input type="text" name="contacto" placeholder="Contacto de la empresa">
+        </div>
+        <div class="campo">
+            <label>Empresa</label>
+            <input type="text" name="empresa" placeholder="Empresa">
+        </div>
+        <div class="campo">
+            <label>Fecha de vencimiento</label>
+            <input type="date" name="vencimiento">
+        </div>
+        <div class="campo">
+            <label>Imagen</label>
+            <input type="text" name="imagen" placeholder="Imagen del premio">
+        </div>
+        <h3>Descripción del Premio</h3>
+        <div class="campo descripcion">
+            <label>Descripción</label>
+            <input type="hidden" id="x" name="descripcion">
+            <trix-editor input="x"></trix-editor>
+        </div>
+         <div class="campo centrar-horizontal">
+            <input type="submit" value="Crear premio" class="btn btn-azul">
+        </div>
+    </form>
+</main>
