@@ -17,10 +17,10 @@ document.addEventListener('DOMContentLoaded', () => {
         skillsSeleccionados();
     }
 
-    const vacantesListado = document.querySelector('.panel-administracion');
+    const Listado = document.querySelector('.panel-administracion');
 
-    if(vacantesListado){
-        vacantesListado.addEventListener('click', accionesListado);
+    if(Listado){
+        Listado.addEventListener('click', accionesListado);
     }
 
 })

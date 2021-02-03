@@ -8,6 +8,5 @@ mongoose.connection.on('error', (error) => {
 })
 // importar los modelos
 require('../models/Usuarios');
-require('../models/Vacantes');
 require('../models/Premios');
 require('../models/Imagenes');

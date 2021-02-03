@@ -1,6 +1,5 @@
 const passport = require('passport');
 const mongoose = require('mongoose');
-const Vacante = mongoose.model('Vacante');
 const Premios = mongoose.model('Premios');
 const Imagenes = mongoose.model('Imagenes');
 const Usuarios = mongoose.model('Usuarios');
@@ -30,7 +29,6 @@ exports.verificarUsuario = (req, res, next) => {
 exports.mostrarPanel = async (req, res) => {
 
     // consultar el usuario autenticado
-    const vacantes = await Vacante.find({ autor: 'autor' });
     const premios = await Premios.find();
     const imagenes = await Imagenes.find();
     const usuarios = await Usuarios.find();
@@ -42,7 +40,6 @@ exports.mostrarPanel = async (req, res) => {
         cerrarSesion: true,
         nombre : req.user.nombre,
         imagen : req.user.imagen,
-        vacantes,
         premios,
         imagenes,
         usuarios
