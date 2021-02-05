@@ -104,6 +104,7 @@ exports.validarPremio = (req, res, next) => {
     req.checkBody('empresa', 'Agrega la empresa').notEmpty();
     req.checkBody('contacto', 'Agrega el contacto para canje').notEmpty();
     req.checkBody('vencimiento', 'Agrega la fecha de vencimiento').notEmpty();
+    req.checkBody('cantidad', 'La cantidad de premios no puede estar vacía').notEmpty();
 
    
 

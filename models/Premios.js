@@ -62,9 +62,13 @@ const premiosSchema =  new mongoose.Schema({
       type: Boolean,
       default: true,
     },
+    cantidad: {
+      type: Number,
+      required: 'La cantidad de premios disponible es obligatoria',
+    }
 });
 
-premiosSchema.plugin(AutoIncrement, {inc_field: 'id'});
+premiosSchema.plugin(AutoIncrement, {inc_field: 'idPremio'});
 
 premiosSchema.pre('save', function(next) {
 

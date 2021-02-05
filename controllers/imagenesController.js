@@ -60,9 +60,9 @@ exports.formEditarImagen = async (req, res, next) => {
 
 //enviar los datos a la db
 exports.editarImagen = async (req, res) => {
-    const premioActualizado = req.body;
+    const datoActualizado = req.body;
 
-    const imagenes = await Imagenes.findOneAndUpdate({url: req.params.url}, premioActualizado, {
+    const imagenes = await Imagenes.findOneAndUpdate({url: req.params.url}, datoActualizado, {
         new: true,
         runValidators: true
     } );
@@ -70,7 +70,7 @@ exports.editarImagen = async (req, res) => {
     res.redirect(`/imagenes/${imagenes.url}`);
 }
 
-// Validar y Sanitizar los campos de los premios
+// Validar y Sanitizar los campos de las imagenes
 exports.validarImagen = (req, res, next) => {
     // sanitizar los campos
     req.sanitizeBody('nombre').escape();

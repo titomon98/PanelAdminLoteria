@@ -25,7 +25,7 @@ const imagenesSchema =  new mongoose.Schema({
     },
 });
 
-imagenesSchema.plugin(AutoIncrement, {inc_field: 'idImg'});
+imagenesSchema.plugin(AutoIncrement, {inc_field: 'id'});
 
 imagenesSchema.pre('save', function(next) {
 

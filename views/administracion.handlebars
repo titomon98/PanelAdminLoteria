@@ -15,7 +15,7 @@
                     <div class="vacante ">
                         <div class="caja">
                             <h3>{{nombre}}</h3>
-                            <p class="puesto">{{contacto}}</p>                        
+                            <p class="puesto">{{empresa}}</p>                        
                         </div>
 
                         <div class="centrar-vertical caja">
@@ -50,8 +50,27 @@
                     <div class="centrar-vertical caja">
                         <a href="/imagenes/editar/{{url}}" class="btn btn-verde">Editar</a>
                     </div>
+                </div>
+            {{/each}}
+        {{else}}
+            <p>No hay imágenes, crea una</p>
+        {{/if}}
+    </div>
+
+    <h2>Actualizaciones a la fecha</h2>
+
+    <div class="panel-administracion">
+        {{#if actualizaciones.length}}
+            {{#each actualizaciones}}
+                <div class="vacante ">
+                    <div class="caja">
+                        <h3>{{idUpd}}</h3>                
+                    </div>
                     <div class="centrar-vertical caja">
-                        <a href="#" data-eliminar={{id}} class="btn btn-rojo">Eliminar</a>
+                        <a href="/actualizaciones/{{url}}" class="btn btn-azul">Ver</a>
+                    </div>
+                    <div class="centrar-vertical caja">
+                        <a href="/actualizaciones/editar/{{url}}" class="btn btn-verde">Editar</a>
                     </div>
                 </div>
             {{/each}}

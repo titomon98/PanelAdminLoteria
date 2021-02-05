@@ -10,3 +10,4 @@ mongoose.connection.on('error', (error) => {
 require('../models/Usuarios');
 require('../models/Premios');
 require('../models/Imagenes');
+require('../models/Actualizaciones');

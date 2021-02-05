@@ -3,6 +3,7 @@ const router = express.Router();
 const homeController = require('../controllers/homeController');
 const premiosController = require('../controllers/premiosController');
 const imagenesController = require('../controllers/imagenesController');
+const actualizacionesController = require('../controllers/actualizacionesController');
 const usuariosController = require('../controllers/usuariosController');
 const authController = require('../controllers/authController');
 
@@ -66,6 +67,31 @@ module.exports = () => {
         imagenesController.editarImagen
     );
 
+    //Crear Actualizaciones
+    router.get('/actualizaciones/nueva',  
+        authController.verificarUsuario,
+        actualizacionesController.formularioNuevaActualizacion
+    );
+    router.post('/actualizaciones/nueva', 
+        authController.verificarUsuario,
+        actualizacionesController.validarActualizacion,
+        actualizacionesController.agregarActualizacion
+    );
+    
+    //Mostrar datos de la actualizacion
+    router.get('/actualizaciones/:url', actualizacionesController.mostrarActualizacion);
+    
+    //Editar Actualizacion
+    router.get('/actualizaciones/editar/:url', 
+        authController.verificarUsuario,
+        actualizacionesController.formEditarActualizacion
+    );
+    router.post('/actualizaciones/editar/:url', 
+        authController.verificarUsuario,
+        actualizacionesController.validarActualizacion,
+        actualizacionesController.editarActualizacion
+    );
+
     // Crear Cuentas
     router.get('/crear-cuenta', usuariosController.formCrearCuenta);
     router.post('/crear-cuenta', 
@@ -81,14 +107,6 @@ module.exports = () => {
         authController.verificarUsuario,
         authController.cerrarSesion
     );
-
-    // Resetear password (emails)
-    router.get('/reestablecer-password', authController.formReestablecerPassword);
-    router.post('/reestablecer-password', authController.enviarToken);
-
-    // Resetear Password ( Almacenar en la BD )
-    router.get('/reestablecer-password/:token', authController.reestablecerPassword);
-    router.post('/reestablecer-password/:token', authController.guardarPassword);
 
 
     // Panel de administración
