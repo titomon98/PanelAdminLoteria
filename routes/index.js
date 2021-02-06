@@ -67,7 +67,7 @@ module.exports = () => {
         imagenesController.editarImagen
     );
 
-    //Crear Actualizaciones
+     //Crear Actualizaciones
     router.get('/actualizaciones/nueva',  
         authController.verificarUsuario,
         actualizacionesController.formularioNuevaActualizacion
@@ -75,7 +75,7 @@ module.exports = () => {
     router.post('/actualizaciones/nueva', 
         authController.verificarUsuario,
         actualizacionesController.validarActualizacion,
-        actualizacionesController.agregarActualizacion
+        actualizacionesController.agregarActualizacion,
     );
     
     //Mostrar datos de la actualizacion
@@ -125,7 +125,9 @@ module.exports = () => {
         // usuariosController.validarPerfil,
         usuariosController.subirImagen,
         usuariosController.editarPerfil
-    )
+    );
+
+    //endpoints 
 
 
     return router;

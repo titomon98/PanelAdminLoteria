@@ -1,9 +1,6 @@
 const mongoose = require('mongoose');
 const Imagenes = mongoose.model('Imagenes');
 
-const multer = require('multer');
-const shortid = require('shortid');
-
 exports.formularioNuevaImagen = (req, res) => {
     res.render('nueva-imagen', {
         nombrePagina: 'Nueva Imagen',
