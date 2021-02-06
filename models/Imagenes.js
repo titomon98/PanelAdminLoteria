@@ -7,13 +7,10 @@ const shortid = require('shortid');
 const imagenesSchema =  new mongoose.Schema({
     nombre: {
         type: String,
-        required: 'El nombre de la imagen es obligatoria',
+        //required: 'El nombre de la imagen es obligatoria',
         trim: true,
     },
-    imagen: {
-        type: String,
-        required: 'La imagen es obligatoria',
-    },
+    imagen: String,
     registro:{
         type: Date,
         default: Date.now()

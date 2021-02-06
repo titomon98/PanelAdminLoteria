@@ -2,6 +2,7 @@ const passport = require('passport');
 const mongoose = require('mongoose');
 const Premios = mongoose.model('Premios');
 const Imagenes = mongoose.model('Imagenes');
+const Actualizaciones = mongoose.model('Actualizaciones');
 const Usuarios = mongoose.model('Usuarios');
 const crypto = require('crypto');
 const enviarEmail = require('../handlers/email');
@@ -32,6 +33,7 @@ exports.mostrarPanel = async (req, res) => {
     const premios = await Premios.find();
     const imagenes = await Imagenes.find();
     const usuarios = await Usuarios.find();
+    const actualizaciones = await Actualizaciones.find();
 
     
     res.render('administracion', {
@@ -42,7 +44,8 @@ exports.mostrarPanel = async (req, res) => {
         imagen : req.user.imagen,
         premios,
         imagenes,
-        usuarios
+        usuarios,
+        actualizaciones
     })
 }
 

@@ -1,6 +1,20 @@
 const mongoose = require('mongoose');
 const Imagenes = mongoose.model('Imagenes');
 
+const shortid = require('shortid');
+const multer = require('multer');
+const express = require('express');
+const router = express.Router();
+router.use(express.static('uploads'));
+
+
+/* var cloudinary = require('cloudinary').v2;
+cloudinary.config({
+    cloud_name: 'dxj44eizq',
+    api_key: '288216134484757',
+    api_secret: 'tsARZ4LZud-EI_pr7rQaBAq9k6s'
+}) */
+
 exports.formularioNuevaImagen = (req, res) => {
     res.render('nueva-imagen', {
         nombrePagina: 'Nueva Imagen',
@@ -11,16 +25,53 @@ exports.formularioNuevaImagen = (req, res) => {
     })
 }
 
-// agrega las imagenes a la base de datos
 exports.agregarImagen = async (req, res) => {
     const imagen = new Imagenes(req.body);
-
     // almacenarlo en la base de datos
-    const nuevaImagen = await imagen.save()
-    // redireccionar
-    res.redirect(`/imagenes/${nuevaImagen.url}`);
-
+    const nuevaImagen = await imagen.save();
+    upload(req, res, function(error) {
+        if(error) {
+            if(error instanceof multer.MulterError) {
+                if(error.code === 'LIMIT_FILE_SIZE') {
+                    req.flash('error', 'El archivo es muy grande: Máximo 10MB ');
+                } else {
+                    req.flash('error', error.message);
+                }
+            } else {
+                req.flash('error', error.message);
+            }
+           
+            // redireccionar
+            res.redirect('/administracion');
+            return;
+        } else {
+            res.redirect(`/imagenes/${nuevaImagen.url}`);
+        }
+    });
 }
+// Opciones de Multer
+const configuracionMulter = {
+    limits : { fileSize : 10000000 },
+    storage: fileStorage = multer.diskStorage({
+        destination : (req, file, cb) => {
+            cb(null, __dirname+'../../public/uploads/images');
+        }, 
+        filename : (req, file, cb) => {
+            const extension = file.mimetype.split('/')[1];
+            cb(null, `${shortid.generate()}.${extension}`);
+        }
+    }),
+    fileFilter(req, file, cb) {
+        if(file.mimetype === 'image/jpeg' || file.mimetype === 'image/png') {
+            // el callback se ejecuta como true o false : true cuando la imagen se acepta
+            cb(null, true);
+        } else {
+            cb(new Error('Formato No Válido'));
+        }
+    }
+}
+
+const upload = multer(configuracionMulter).single('imagen');
 
 // muestra una imagen individual
 exports.mostrarImagen = async (req, res, next) => {
@@ -71,11 +122,8 @@ exports.editarImagen = async (req, res) => {
 exports.validarImagen = (req, res, next) => {
     // sanitizar los campos
     req.sanitizeBody('nombre').escape();
-    req.sanitizeBody('imagen').escape();
-
     // validar
     req.checkBody('nombre', 'Selecciona un nombre para la imagen').notEmpty();
-    req.checkBody('imagen', 'Agrega una imagen').notEmpty();
 
    
 

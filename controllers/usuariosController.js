@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const Usuarios = mongoose.model('Usuarios');
+
 const multer = require('multer');
 const shortid = require('shortid');
 const express = require('express');
@@ -11,7 +12,7 @@ exports.subirImagen = (req, res, next) => {
         if(error) {
             if(error instanceof multer.MulterError) {
                 if(error.code === 'LIMIT_FILE_SIZE') {
-                    req.flash('error', 'El archivo es muy grande: Máximo 100kb ');
+                    req.flash('error', 'El archivo es muy grande: Máximo 10MB ');
                 } else {
                     req.flash('error', error.message);
                 }
@@ -27,7 +28,7 @@ exports.subirImagen = (req, res, next) => {
 }
 // Opciones de Multer
 const configuracionMulter = {
-    limits : { fileSize : 100000 },
+    limits : { fileSize : 10000000 },
     storage: fileStorage = multer.diskStorage({
         destination : (req, file, cb) => {
             cb(null, __dirname+'../../public/uploads/perfiles');
@@ -47,7 +48,7 @@ const configuracionMulter = {
     }
 }
 
-const upload = multer(configuracionMulter).single('imagen');
+const upload = multer(configuracionMulter).single('guardar');
 
 exports.formCrearCuenta = (req, res) => {
     res.render('crear-cuenta', {
@@ -117,6 +118,7 @@ exports.formIniciarSesion = (req, res ) => {
 
 // Form editar el Perfil
 exports.formEditarPerfil = (req, res) => {
+    console.log(req)
     res.render('editar-perfil', {
         nombrePagina : 'Edita tu perfil',
         usuario: req.user,
@@ -128,7 +130,6 @@ exports.formEditarPerfil = (req, res) => {
 // Guardar cambios editar perfil
 exports.editarPerfil = async (req, res) => {
     const usuario = await Usuarios.findById(req.user._id);
-
     usuario.nombre = req.body.nombre;
     usuario.email = req.body.email;
     if(req.body.password) {
@@ -146,31 +147,3 @@ exports.editarPerfil = async (req, res) => {
     res.redirect('/administracion');
 }
 
-// sanitizar y validar el formulario de editar perfiles
-exports.validarPerfil = (req, res, next) => {
-    // sanitizar
-    req.sanitizeBody('nombre').escape();
-    req.sanitizeBody('email').escape();
-    if(req.body.password){
-        req.sanitizeBody('password').escape();
-    }
-    // validar
-    req.checkBody('nombre', 'El nombre no puede ir vacio').notEmpty();
-    req.checkBody('email', 'El correo no puede ir vacio').notEmpty();
-
-    const errores = req.validationErrors();
-
-    if(errores) {
-        req.flash('error', errores.map(error => error.msg));
-
-        res.render('editar-perfil', {
-            nombrePagina : 'Edita tu perfil',
-            usuario: req.user,
-            cerrarSesion: true,
-            nombre : req.user.nombre,
-            imagen : req.user.imagen,
-            mensajes : req.flash()
-        })
-    }
-    next(); // todo bien, siguiente middleware!
-}
