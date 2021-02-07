@@ -4,13 +4,12 @@ mongoose.Promise = global.Promise;
 const slug = require('slug');
 const shortid = require('shortid');
 
-const imagenesSchema =  new mongoose.Schema({
-/*     nombre: {
+const actualizacionesSchema =  new mongoose.Schema({
+    descripcion: {
         type: String,
-        //required: 'El nombre de la imagen es obligatoria',
         trim: true,
-    }, */
-    imagen: String,
+        required: 'La descripción es obligatoria',
+    },
     registro:{
         type: Date,
         default: Date.now()
@@ -19,20 +18,18 @@ const imagenesSchema =  new mongoose.Schema({
         type: String,
         lowercase:true
     },
-    urlC : {
-        type: String,
-    },
 });
 
-imagenesSchema.plugin(AutoIncrement, {inc_field: 'id'});
+actualizacionesSchema.plugin(AutoIncrement, {inc_field: 'idUpd'});
 
-imagenesSchema.pre('save', function(next) {
+actualizacionesSchema.pre('save', function(next) {
 
     // crear la url
-    const url = slug('url');
+    const url = slug(this.descripcion);
     this.url = `${url}-${shortid.generate()}`;
+
     next();
 })
 
 
-module.exports = mongoose.model('Imagenes', imagenesSchema);
+module.exports = mongoose.model('Actualizaciones', actualizacionesSchema);

@@ -4,6 +4,9 @@ const Premios = mongoose.model('Premios');
 const multer = require('multer');
 const shortid = require('shortid');
 
+var nombreImagen;
+var rutaImagen;
+
 exports.formularioNuevoPremio = (req, res) => {
     res.render('nuevo-premio', {
         nombrePagina: 'Nuevo Premio',
@@ -16,18 +19,75 @@ exports.formularioNuevoPremio = (req, res) => {
 
 // agrega los premios a la base de datos
 exports.agregarPremio = async (req, res) => {
-    const premio = new Premios(req.body);
+   
 
-    //temporal
-    premio.ubicacion = 'para el futuro';
+    upload(req, res, async function(error) {
+        if(error) {
+            if(error instanceof multer.MulterError) {
+                if(error.code === 'LIMIT_FILE_SIZE') {
+                    req.flash('error', 'El archivo es muy grande: Máximo 10MB ');
+                } else {
+                    req.flash('error', error.message);
+                }
+            } else {
+                req.flash('error', error.message);
+            }
+           
+            // redireccionar
+            res.redirect('/administracion');
+            return;
+        } else {
+            //Hasta aqui estamos bien
+            const premio = new Premios(req.body);
 
+            //temporal
+            premio.ubicacion = 'para el futuro';
 
-    // almacenarlo en la base de datos
-    const nuevoPremio = await premio.save()
-    // redireccionar
-    res.redirect(`/premios/${nuevoPremio.url}`);
+            // almacenarlo en la base de datos
+            var nuevoPremio;
+            try {
+                const foto_aux = await cloudinary.uploader.upload(rutaImagen);
+                premio.urlC = foto_aux.secure_url;
+                nuevoPremio = await premio.save()
+            } catch (error) {
+                console.log(error)
+            }
+            // redireccionar
+            res.redirect(`/premios/${nuevoPremio.url}`);
+        }
+    });
 
 }
+
+// Opciones de Multer
+const configuracionMulter = {
+    limits : { fileSize : 10000000 },
+    storage: fileStorage = multer.diskStorage({
+        destination : (req, file, cb) => {
+            cb(null, __dirname+'../../public/uploads/images');
+        }, 
+        filename : (req, file, cb) => {
+            const extension = file.mimetype.split('/')[1];
+            nombreImagen = `${shortid.generate()}.${extension}`;
+            rutaImagen = './public/uploads/premios' + '/' + nombreImagen;
+
+           
+            cb(null, nombreImagen);
+            
+        }
+    }),
+    fileFilter(req, file, cb) {
+        if(file.mimetype === 'image/jpeg' || file.mimetype === 'image/png') {
+            // el callback se ejecuta como true o false : true cuando la imagen se acepta
+
+            cb(null, true);
+        } else {
+            cb(new Error('Formato No Válido'));
+        }
+    }
+}
+
+const upload = multer(configuracionMulter).single('imagen');
 
 // muestra un premio individual
 exports.mostrarPremio = async (req, res, next) => {

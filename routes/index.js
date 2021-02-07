@@ -122,14 +122,16 @@ module.exports = () => {
     );
     router.post('/editar-perfil', 
         authController.verificarUsuario,
-        //usuariosController.validarPerfil,
+        usuariosController.validarPerfil,
         usuariosController.subirImagen,
         usuariosController.editarPerfil
     );
 
     //endpoints
-    //Imagen individual
+    //Imagen individual por id
+    router.get('/imagenes/:id', imagenesController.mostrarImagenId);
     //Todas las imagenes en general
+    router.get('/imagenes/', imagenesController.mostrarImagenGeneral);
 
 
 

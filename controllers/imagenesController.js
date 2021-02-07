@@ -8,12 +8,15 @@ const router = express.Router();
 router.use(express.static('uploads'));
 
 
-/* var cloudinary = require('cloudinary').v2;
+var cloudinary = require('cloudinary').v2;
 cloudinary.config({
     cloud_name: 'dxj44eizq',
     api_key: '288216134484757',
     api_secret: 'tsARZ4LZud-EI_pr7rQaBAq9k6s'
-}) */
+})
+
+var nombreImagen;
+var rutaImagen;
 
 exports.formularioNuevaImagen = (req, res) => {
     res.render('nueva-imagen', {
@@ -25,11 +28,8 @@ exports.formularioNuevaImagen = (req, res) => {
     })
 }
 
-exports.agregarImagen = async (req, res) => {
-    const imagen = new Imagenes(req.body);
-    // almacenarlo en la base de datos
-    const nuevaImagen = await imagen.save();
-    upload(req, res, function(error) {
+exports.agregarImagen = (req, res) => {
+    upload(req, res, async function(error) {
         if(error) {
             if(error instanceof multer.MulterError) {
                 if(error.code === 'LIMIT_FILE_SIZE') {
@@ -45,6 +45,17 @@ exports.agregarImagen = async (req, res) => {
             res.redirect('/administracion');
             return;
         } else {
+            //Hasta aqui estamos bien
+            const imagen = new Imagenes(req.body);
+            // almacenarlo en la base de datos
+            var nuevaImagen;
+            try {
+                const foto_aux = await cloudinary.uploader.upload(rutaImagen);
+                imagen.urlC = foto_aux.secure_url;
+                nuevaImagen = await imagen.save()
+            } catch (error) {
+                console.log(error)
+            }
             res.redirect(`/imagenes/${nuevaImagen.url}`);
         }
     });
@@ -58,12 +69,16 @@ const configuracionMulter = {
         }, 
         filename : (req, file, cb) => {
             const extension = file.mimetype.split('/')[1];
-            cb(null, `${shortid.generate()}.${extension}`);
+            nombreImagen = `${shortid.generate()}.${extension}`;
+            rutaImagen = './public/uploads/images' + '/' + nombreImagen;
+            cb(null, nombreImagen);
+            
         }
     }),
     fileFilter(req, file, cb) {
         if(file.mimetype === 'image/jpeg' || file.mimetype === 'image/png') {
             // el callback se ejecuta como true o false : true cuando la imagen se acepta
+
             cb(null, true);
         } else {
             cb(new Error('Formato No Válido'));
@@ -71,7 +86,7 @@ const configuracionMulter = {
     }
 }
 
-const upload = multer(configuracionMulter).single('imagen');
+const upload = multer(configuracionMulter).single('guardar');
 
 // muestra una imagen individual
 exports.mostrarImagen = async (req, res, next) => {
@@ -121,9 +136,9 @@ exports.editarImagen = async (req, res) => {
 // Validar y Sanitizar los campos de las imagenes
 exports.validarImagen = (req, res, next) => {
     // sanitizar los campos
-    req.sanitizeBody('nombre').escape();
+/*     req.sanitizeBody('nombre').escape();
     // validar
-    req.checkBody('nombre', 'Selecciona un nombre para la imagen').notEmpty();
+    req.checkBody('nombre', 'Selecciona un nombre para la imagen').notEmpty(); */
 
    
 
@@ -143,4 +158,23 @@ exports.validarImagen = (req, res, next) => {
     }
 
     next(); // siguiente middleware
+}
+
+// muestra una imagen individual
+exports.mostrarImagenId = async (req, res, next) => {
+    const imagenes = await Imagenes.findOne({ id: req.params.id });
+    // si no hay resultados
+    if(!imagenes) return next();
+    console.log(imagenes);
+    return imagenes;
+}
+
+// muestra una imagen individual
+exports.mostrarImagenGeneral = async (req, res, next) => {
+    const imagenes = await Imagenes.find();
+    // si no hay resultados
+    if(!imagenes) return next();
+
+    console.log(imagenes);
+    return imagenes;
 }

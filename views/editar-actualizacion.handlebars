@@ -1,0 +1,20 @@
+<main class="contenedor">
+    <form action="/actualizaciones/editar/{{actualizaciones.url}}" method="POST" class="default-form">
+        <h3>Información General</h3>
+
+        <div class="campo">
+            <label>Número de actualización</label>
+            <h2>{{actualizaciones.idUpd}}</h2>
+        </div>
+         <div class="campo">
+            <label>Descripción</label>
+            <input type="text" value="{{actualizaciones.descripcion}}" name="descripcion" placeholder="Descripción"  required>
+        </div>
+
+        <div class="campo centrar-horizontal">
+            <input type="submit" value="Guardar Cambios" class="btn btn-azul">
+        </div>
+
+
+    </form>
+</main>
