@@ -1,9 +1,14 @@
 <main class="contenedor">
-    <form action="/imagenes/editar/{{imagenes.url}}" method="POST" class="default-form">
-        <h3>Información General</h3>
-         <div class="campo">
-            <label>Imagen</label>
-            <input type="text" value="{{imagenes.imagen}}" name="imagen" placeholder="Imagen"  required>
+    <form action="/imagenes/editar/{{imagenes.url}}" method="POST" class="default-form" enctype="multipart/form-data">
+        <div class="contenido-superior vacante contenedor">
+            <div class="caja">
+                <p class="etiqueta">Imagen actual</p>
+                <img src="{{imagenes.urlC}}" class="admin-perfil">
+            </div>
+        </div>
+        <div class="campo">
+            <label>Imagen nueva</label>
+            <input type="file" name="guardar" placeholder="Imagen">
         </div>
 
         <div class="campo centrar-horizontal">

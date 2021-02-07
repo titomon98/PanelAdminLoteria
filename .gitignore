@@ -1,1 +1,4 @@
 /node_modules
+public/uploads/images/*
+public/uploads/premios/*
+variables.env

@@ -45,7 +45,6 @@ exports.agregarImagen = (req, res) => {
             res.redirect('/administracion');
             return;
         } else {
-            //Hasta aqui estamos bien
             const imagen = new Imagenes(req.body);
             // almacenarlo en la base de datos
             var nuevaImagen;
@@ -60,33 +59,6 @@ exports.agregarImagen = (req, res) => {
         }
     });
 }
-// Opciones de Multer
-const configuracionMulter = {
-    limits : { fileSize : 10000000 },
-    storage: fileStorage = multer.diskStorage({
-        destination : (req, file, cb) => {
-            cb(null, __dirname+'../../public/uploads/images');
-        }, 
-        filename : (req, file, cb) => {
-            const extension = file.mimetype.split('/')[1];
-            nombreImagen = `${shortid.generate()}.${extension}`;
-            rutaImagen = './public/uploads/images' + '/' + nombreImagen;
-            cb(null, nombreImagen);
-            
-        }
-    }),
-    fileFilter(req, file, cb) {
-        if(file.mimetype === 'image/jpeg' || file.mimetype === 'image/png') {
-            // el callback se ejecuta como true o false : true cuando la imagen se acepta
-
-            cb(null, true);
-        } else {
-            cb(new Error('Formato No Válido'));
-        }
-    }
-}
-
-const upload = multer(configuracionMulter).single('guardar');
 
 // muestra una imagen individual
 exports.mostrarImagen = async (req, res, next) => {
@@ -114,7 +86,7 @@ exports.formEditarImagen = async (req, res, next) => {
 
     res.render('editar-imagen', {
         imagenes,
-        nombrePagina : `Editar Imagen - ${imagenes.nombre}`,
+        nombrePagina : `Editar Imagen - ${imagenes.id}`,
         cerrarSesion: true,
         nombre : req.user.nombre,
         imagen : req.user.imagen
@@ -129,6 +101,37 @@ exports.editarImagen = async (req, res) => {
         new: true,
         runValidators: true
     } );
+
+    upload(req, res, async function(error) {
+        if(error) {
+            if(error instanceof multer.MulterError) {
+                if(error.code === 'LIMIT_FILE_SIZE') {
+                    req.flash('error', 'El archivo es muy grande: Máximo 10MB ');
+                } else {
+                    req.flash('error', error.message);
+                }
+            } else {
+                req.flash('error', error.message);
+            }
+           
+            // redireccionar
+            res.redirect('/administracion');
+            return;
+        } else {
+            //Hasta aqui estamos bien
+            const imagen = new Imagenes(req.body);
+            // almacenarlo en la base de datos
+            var nuevaImagen;
+            try {
+                const foto_aux = await cloudinary.uploader.upload(rutaImagen);
+                imagen.urlC = foto_aux.secure_url;
+                nuevaImagen = await imagen.save()
+            } catch (error) {
+                console.log(error)
+            }
+            res.redirect(`/imagenes/${nuevaImagen.url}`);
+        }
+    });
 
     res.redirect(`/imagenes/${imagenes.url}`);
 }
@@ -178,3 +181,31 @@ exports.mostrarImagenGeneral = async (req, res, next) => {
     console.log(imagenes);
     return imagenes;
 }
+
+// Opciones de Multer
+const configuracionMulter = {
+    limits : { fileSize : 10000000 },
+    storage: fileStorage = multer.diskStorage({
+        destination : (req, file, cb) => {
+            cb(null, __dirname+'../../public/uploads/images');
+        }, 
+        filename : (req, file, cb) => {
+            const extension = file.mimetype.split('/')[1];
+            nombreImagen = `${shortid.generate()}.${extension}`;
+            rutaImagen = './public/uploads/images' + '/' + nombreImagen;
+            cb(null, nombreImagen);
+            
+        }
+    }),
+    fileFilter(req, file, cb) {
+        if(file.mimetype === 'image/jpeg' || file.mimetype === 'image/png') {
+            // el callback se ejecuta como true o false : true cuando la imagen se acepta
+
+            cb(null, true);
+        } else {
+            cb(new Error('Formato No Válido'));
+        }
+    }
+}
+
+const upload = multer(configuracionMulter).single('guardar');
