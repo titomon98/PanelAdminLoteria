@@ -179,7 +179,7 @@ exports.mostrarImagenGeneral = async (req, res, next) => {
     if(!imagenes) return next();
 
     console.log(imagenes);
-    return imagenes;
+    res.send(imagenes);
 }
 
 // Opciones de Multer
