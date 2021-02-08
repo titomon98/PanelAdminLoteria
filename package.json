@@ -1,8 +1,11 @@
 {
-  "name": "devjobs",
+  "name": "loteriaxtrema",
   "version": "1.0.0",
-  "description": "Portal DevJobs con NodeJS, Handlebars Mongoose",
+  "description": "Panel admin loteria xtrema",
   "main": "index.js",
+  "engines": {
+    "node": "10.23.0"
+  },
   "scripts": {
     "dev": "nodemon ./index",
     "desarrollo": "concurrently \"npm run dev\" \"npm run watch\" ",
