@@ -133,7 +133,9 @@ module.exports = () => {
     //Todas las imagenes en general
     router.get('/imagenes/', imagenesController.mostrarImagenGeneral);
 
+    router.get('/premios/:tipo', premiosController.mostrarPremioId);
 
+    router.get('/premios/', premiosController.mostrarPremioGeneral);
 
 
     return router;

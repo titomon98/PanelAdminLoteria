@@ -168,7 +168,6 @@ exports.mostrarImagenId = async (req, res, next) => {
     const imagenes = await Imagenes.findOne({ id: req.params.id });
     // si no hay resultados
     if(!imagenes) return next();
-    console.log(imagenes);
     return imagenes;
 }
 
@@ -177,8 +176,6 @@ exports.mostrarImagenGeneral = async (req, res, next) => {
     const imagenes = await Imagenes.find();
     // si no hay resultados
     if(!imagenes) return next();
-
-    console.log(imagenes);
     res.send(imagenes);
 }
 

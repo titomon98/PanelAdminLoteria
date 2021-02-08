@@ -3,6 +3,18 @@ const Premios = mongoose.model('Premios');
 
 const multer = require('multer');
 const shortid = require('shortid');
+const express = require('express');
+const router = express.Router();
+router.use(express.static('uploads'));
+
+
+var cloudinary = require('cloudinary').v2;
+cloudinary.config({
+    cloud_name: 'dxj44eizq',
+    api_key: '288216134484757',
+    api_secret: 'tsARZ4LZud-EI_pr7rQaBAq9k6s'
+})
+
 
 var nombreImagen;
 var rutaImagen;
@@ -184,4 +196,22 @@ exports.validarPremio = (req, res, next) => {
     }
 
     next(); // siguiente middleware
+}
+
+// muestra un premio individual
+exports.mostrarPremioId = async (req, res, next) => {
+    const premio = await Premios.find({ tipo: req.params.tipo });
+    // si no hay resultados
+    if(!premio) return next();
+
+    res.send(premio);
+}
+
+// muestra un premio individual
+exports.mostrarPremioGeneral = async (req, res, next) => {
+    const premio = await Premios.find();
+    // si no hay resultados
+    if(!premio) return next();
+
+    res.send(premio);
 }
