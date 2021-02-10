@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 require('./config/db');
 
 const express = require('express');
+var cors = require('cors')
 const exphbs = require('express-handlebars');
 const path = require('path');
 const router = require('./routes');
@@ -19,6 +20,7 @@ const app = express();
 
 // validación de campos
 app.use(expressValidator());
+app.use(cors())
 
 // habilitar body-parser
 app.use(bodyParser.json());
@@ -77,12 +79,12 @@ app.use((error, req, res) => {
 });
 
 
-/* app.listen(process.env.PUERTO); */
+app.listen(process.env.PUERTO);
 
 //puerto asignado por heroku
-const host = '0.0.0.0';
+/* const host = '0.0.0.0';
 const port = process.env.PORT;
 
 app.listen(port, host, () => {
     console.log('todo esta funcionando')
-});
+}); */

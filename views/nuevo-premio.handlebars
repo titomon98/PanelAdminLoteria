@@ -9,10 +9,10 @@
             <label>Tipo de premio</label>
             <select name="tipo">
                 <option value="" disabled selected>-- Selecciona --</option>
-                <option value="Amarillo">Amarillo</option>
-                <option value="Morado">Morado</option>
-                <option value="Blanco">Blanco</option>
-                <option value="Rojo">Rojo</option>
+                <option value="amarillo">Amarillo</option>
+                <option value="morado">Morado</option>
+                <option value="blanco">Blanco</option>
+                <option value="rojo">Rojo</option>
             </select>
         </div>
         <div class="campo">
@@ -40,17 +40,11 @@
             <input type="date" name="vencimiento">
         </div>
         <div class="campo">
-            <label>Imagen</label>
-            <input type="text" name="imagen" placeholder="Imagen del premio">
-        </div>
-        <h3>Descripción del Premio</h3>
-        <div class="campo descripcion">
             <label>Descripción</label>
-            <input type="hidden" id="x" name="descripcion">
-            <trix-editor input="x"></trix-editor>
+            <input type="text" name="descripcion" placeholder="Ingrese descripción">
         </div>
          <div class="campo centrar-horizontal">
-            <input type="submit" value="Crear premio" class="btn btn-azul">
+            <input type="submit" value="Siguiente formulario" class="btn btn-azul">
         </div>
     </form>
 </main>

@@ -20,8 +20,10 @@ module.exports = () => {
     router.post('/premios/nuevo', 
         authController.verificarUsuario,
         premiosController.validarPremio,
-        premiosController.agregarPremio
+        premiosController.agregarPremio,
     );
+
+    router.post('/premios/img', premiosController.imagenPremio);
 
     // Mostrar Premio (singular)
     router.get('/premios/:url', premiosController.mostrarPremio);
@@ -136,6 +138,8 @@ module.exports = () => {
     router.get('/premios/:tipo', premiosController.mostrarPremioId);
 
     router.get('/premios/', premiosController.mostrarPremioGeneral);
+
+    router.get('/usuarios', usuariosController.mostrarUsuariosGeneral);
 
 
     return router;

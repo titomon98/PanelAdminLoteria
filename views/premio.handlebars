@@ -49,17 +49,13 @@
 
 
 
-<div class="vacante-contenedor contenedor">
-    <main class="contenido">
-        <h2>Descripción del premio</h2>
+<div class="caja">
+    <main class="contenido"></main>
+         <p class="etiqueta">Descripción del premio</p>
         {{#if premio.descripcion}}
-            <div class="vacante-descripcion">
-                {{{premio.descripcion}}}
-            </div>
+            <p class="nombre">{{premio.descripcion}}</p>
         {{else}}
-            <div class="vacante-descripcion">
-                No se ha agregado una descripción
-            </div>
+            <p class="nombre">No se ha agregado una descripción</p>
         {{/if}}
 
 

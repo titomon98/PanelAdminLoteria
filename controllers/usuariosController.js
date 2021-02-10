@@ -7,6 +7,14 @@ const express = require('express');
 const router = express.Router();
 router.use(express.static('uploads'));
 
+exports.mostrarUsuariosGeneral = async (req, res) => {
+    const usuario = await Usuarios.find();
+    // si no hay resultados
+    if(!usuario) res.send('No hay usuarios registrados');
+
+    res.send(usuario);
+}
+
 exports.subirImagen = (req, res, next) => {
     upload(req, res, function(error) {
         if(error) {

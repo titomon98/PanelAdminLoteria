@@ -18,6 +18,7 @@ cloudinary.config({
 
 var nombreImagen;
 var rutaImagen;
+var url;
 
 exports.formularioNuevoPremio = (req, res) => {
     res.render('nuevo-premio', {
@@ -30,9 +31,31 @@ exports.formularioNuevoPremio = (req, res) => {
 }
 
 // agrega los premios a la base de datos
-exports.agregarPremio = async (req, res) => {
-   
+exports.agregarPremio = async (req, res, next) => {
+    const premio = new Premios(req.body);
 
+    //temporal
+    premio.ubicacion = 'para el futuro';
+    premio.imagen = 'Aqui va el link';
+
+    // almacenarlo en la base de datos
+    const nuevoPremio = await premio.save()
+
+    url = nuevoPremio.url;
+
+    res.render('img-premio', {
+        nombrePagina: 'Nueva imagen para premio',
+        tagline: 'Ingresa una imagen para el premio',
+        cerrarSesion: true,
+        nombre : req.user.nombre,
+        imagen : req.user.imagen,
+    });
+    
+
+}
+
+exports.imagenPremio = async( req, res) => {
+    const premio = await Premios.findOne({ url: url});
     upload(req, res, async function(error) {
         if(error) {
             if(error instanceof multer.MulterError) {
@@ -49,26 +72,15 @@ exports.agregarPremio = async (req, res) => {
             res.redirect('/administracion');
             return;
         } else {
-            //Hasta aqui estamos bien
-            const premio = new Premios(req.body);
-
-            //temporal
-            premio.ubicacion = 'para el futuro';
-
-            // almacenarlo en la base de datos
-            var nuevoPremio;
             try {
                 const foto_aux = await cloudinary.uploader.upload(rutaImagen);
-                premio.urlC = foto_aux.secure_url;
-                nuevoPremio = await premio.save()
+                premio.imagen = foto_aux.secure_url;
             } catch (error) {
                 console.log(error)
             }
-            // redireccionar
-            res.redirect(`/premios/${nuevoPremio.url}`);
+            res.redirect(`/premios/${premios.url}`);
         }
     });
-
 }
 
 // Opciones de Multer
@@ -166,7 +178,6 @@ exports.validarPremio = (req, res, next) => {
     req.sanitizeBody('contacto').escape();
     req.sanitizeBody('empresa').escape();
     req.sanitizeBody('vencimiento').escape();
-    req.sanitizeBody('imagen').escape();
     req.sanitizeBody('descripcion').escape();
 
     // validar
