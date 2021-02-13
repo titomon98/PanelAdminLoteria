@@ -10,34 +10,25 @@ const authController = require('../controllers/authController');
 
 
 module.exports = () => {
-    router.get('/', homeController.mostrarTrabajos);
+
+    router.get('/premios/:tipo', premiosController.mostrarPremioTipo);
+
+    router.get('/premios/', premiosController.mostrarPremioGeneral);
 
     //Crear Premios
-    router.get('/premios/nuevo',  
-        authController.verificarUsuario,
-        premiosController.formularioNuevoPremio
-    );
-    router.post('/premios/nuevo', 
-        authController.verificarUsuario,
-        premiosController.validarPremio,
+    router.post('/premios/nuevo',
         premiosController.agregarPremio,
     );
-
-    router.post('/premios/img', premiosController.imagenPremio);
 
     // Mostrar Premio (singular)
     router.get('/premios/:url', premiosController.mostrarPremio);
 
     // Editar Premio
-    router.get('/premios/editar/:url', 
-        authController.verificarUsuario,
-        premiosController.formEditarPremio
+    router.post('/premios/actualizar-premio',
+        premiosController.actualizarPremio
     );
-    router.post('/premios/editar/:url', 
-        authController.verificarUsuario,
-        premiosController.validarPremio,
-        premiosController.editarPremio
-    );
+
+    router.post('/premios/descontar/:id')
 
     // Eliminar Premios
     router.delete('/premios/eliminar/:id', 
@@ -46,11 +37,9 @@ module.exports = () => {
 
     //Crear Imagenes
     router.get('/imagenes/nueva',  
-        authController.verificarUsuario,
         imagenesController.formularioNuevaImagen
     );
     router.post('/imagenes/nueva', 
-        authController.verificarUsuario,
         imagenesController.validarImagen,
         imagenesController.agregarImagen
     );
@@ -60,22 +49,18 @@ module.exports = () => {
 
     // Editar Imagen
     router.get('/imagenes/editar/:url', 
-        authController.verificarUsuario,
         imagenesController.formEditarImagen
     );
     router.post('/imagenes/editar/:url', 
-        authController.verificarUsuario,
         imagenesController.validarImagen,
         imagenesController.editarImagen
     );
 
      //Crear Actualizaciones
-    router.get('/actualizaciones/nueva',  
-        authController.verificarUsuario,
+    router.get('/actualizaciones/nueva', 
         actualizacionesController.formularioNuevaActualizacion
     );
     router.post('/actualizaciones/nueva', 
-        authController.verificarUsuario,
         actualizacionesController.validarActualizacion,
         actualizacionesController.agregarActualizacion,
     );
@@ -85,48 +70,27 @@ module.exports = () => {
     
     //Editar Actualizacion
     router.get('/actualizaciones/editar/:url', 
-        authController.verificarUsuario,
         actualizacionesController.formEditarActualizacion
     );
     router.post('/actualizaciones/editar/:url', 
-        authController.verificarUsuario,
         actualizacionesController.validarActualizacion,
         actualizacionesController.editarActualizacion
     );
 
-    // Crear Cuentas
-    router.get('/crear-cuenta', usuariosController.formCrearCuenta);
-    router.post('/crear-cuenta', 
-        usuariosController.validarRegistro,
+
+    //USUARIOS
+    router.get('/usuarios', usuariosController.mostrarUsuariosGeneral);
+    // Crear Usuarios
+    router.post('/crear-usuario', 
         usuariosController.crearUsuario
     );
+    router.post('/actualizar-usuario', usuariosController.actualizarUsuario);
 
     // Autenticar Usuarios
-    router.get('/iniciar-sesion', usuariosController.formIniciarSesion);
     router.post('/iniciar-sesion',authController.autenticarUsuario);
     // cerrar sesion
     router.get('/cerrar-sesion',
-        authController.verificarUsuario,
         authController.cerrarSesion
-    );
-
-
-    // Panel de administración
-    router.get('/administracion',
-        authController.verificarUsuario,
-        authController.mostrarPanel
-    );
-
-    // Editar Perfil
-    router.get('/editar-perfil', 
-        authController.verificarUsuario,
-        usuariosController.formEditarPerfil
-    );
-    router.post('/editar-perfil', 
-        authController.verificarUsuario,
-        usuariosController.validarPerfil,
-        usuariosController.subirImagen,
-        usuariosController.editarPerfil
     );
 
     //endpoints
@@ -135,11 +99,7 @@ module.exports = () => {
     //Todas las imagenes en general
     router.get('/imagenes/', imagenesController.mostrarImagenGeneral);
 
-    router.get('/premios/:tipo', premiosController.mostrarPremioId);
-
-    router.get('/premios/', premiosController.mostrarPremioGeneral);
-
-    router.get('/usuarios', usuariosController.mostrarUsuariosGeneral);
+    
 
 
     return router;

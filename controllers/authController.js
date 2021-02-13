@@ -27,28 +27,6 @@ exports.verificarUsuario = (req, res, next) => {
 
 }
 
-exports.mostrarPanel = async (req, res) => {
-
-    // consultar el usuario autenticado
-    const premios = await Premios.find();
-    const imagenes = await Imagenes.find();
-    const usuarios = await Usuarios.find();
-    const actualizaciones = await Actualizaciones.find();
-
-    
-    res.render('administracion', {
-        nombrePagina: 'Panel de Administración',
-        tagline: 'Crea y Administra tus recursos desde aquí',
-        cerrarSesion: true,
-        nombre : req.user.nombre,
-        imagen : req.user.imagen,
-        premios,
-        imagenes,
-        usuarios,
-        actualizaciones
-    })
-}
-
 
 exports.cerrarSesion = (req, res) => {
     req.logout();

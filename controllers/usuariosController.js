@@ -58,100 +58,35 @@ const configuracionMulter = {
 
 const upload = multer(configuracionMulter).single('guardar');
 
-exports.formCrearCuenta = (req, res) => {
-    res.render('crear-cuenta', {
-        nombrePagina: 'Crea una cuenta',
-        tagline: 'El usuario tendrá acceso al panel de administración',
-        cerrarSesion: true,
-        nombre : req.user.nombre,
-        imagen : req.user.imagen,
-    })
-}
-
-
-
-exports.validarRegistro = (req, res, next) => {
-
-    // sanitizar
-    req.sanitizeBody('nombre').escape();
-    req.sanitizeBody('email').escape();
-    req.sanitizeBody('password').escape();
-    req.sanitizeBody('confirmar').escape();
-
-    // validar
-    req.checkBody('nombre', 'El Nombre es Obligatorio').notEmpty();
-    req.checkBody('email', 'El email debe ser valido').isEmail();
-    req.checkBody('password', 'El password no puede ir vacio').notEmpty();
-    req.checkBody('confirmar', 'Confirmar password no puede ir vacio').notEmpty();
-    req.checkBody('confirmar', 'El password es diferente').equals(req.body.password);
-
-    const errores = req.validationErrors();
-
-    if(errores){
-        // si hay errores
-        req.flash('error', errores.map(error => error.msg));
-
-        res.render('crear-cuenta', {
-            nombrePagina: 'Crea una cuenta',
-            tagline: 'El usuario tendrá acceso al panel de administración',mensajes: req.flash(),
-            cerrarSesion: true,
-            nombre : req.user.nombre,
-            imagen : req.user.imagen,
-        });
-        return;
-    }
-
-    // Si toda la validación es correcta
-    next();
-}
-
-exports.crearUsuario = async (req, res, next) => {
+exports.crearUsuario = async (req, res) => {
     // crear el usuario
     const usuario = new Usuarios(req.body);
+    usuario.estado = 'Activo';
     try {
         await usuario.save();
-        res.redirect('/iniciar-sesion');
+        res.send('Ingreso correcto')
     } catch (error) {
         req.flash('error', error);
-        res.redirect('/crear-cuenta');
+        res.send('Ha ocurrido un error')
     }
 }
-
-// formulario para iniciar sesión
-exports.formIniciarSesion = (req, res ) => {
-    res.render('iniciar-sesion', {
-        nombrePagina : 'Iniciar Sesión'
-    })
-}
-
-// Form editar el Perfil
-exports.formEditarPerfil = (req, res) => {
-    res.render('editar-perfil', {
-        nombrePagina : 'Edita tu perfil',
-        usuario: req.user,
-        cerrarSesion: true,
-        nombre : req.user.nombre,
-        imagen : req.user.imagen
-    })
-}
 // Guardar cambios editar perfil
-exports.editarPerfil = async (req, res) => {
-    const usuario = await Usuarios.findById(req.user._id);
+exports.actualizarUsuario = async (req, res) => {
+    const usuario = await Usuarios.findById(req.body._id);
     usuario.nombre = req.body.nombre;
     usuario.email = req.body.email;
+    usuario.rol = req.body.rol;
     if(req.body.password) {
         usuario.password = req.body.password
     }
-
-    if(req.file) {
-        usuario.imagen = req.file.filename;
+    usuario.estado = 'Activo';
+    try {
+        await usuario.save();
+        res.send('Ingreso correcto')
+    } catch (error) {
+        req.flash('error', error);
+        res.send('Ha ocurrido un error')
     }
-
-    await usuario.save();
-
-    req.flash('correcto', 'Cambios Guardados Correctamente');
-    // redirect
-    res.redirect('/administracion');
 }
 
 // sanitizar y validar el formulario de editar perfiles

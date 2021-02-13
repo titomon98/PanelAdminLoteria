@@ -59,8 +59,8 @@ const premiosSchema =  new mongoose.Schema({
       lowercase:true
     },
     estado: {
-      type: Boolean,
-      default: true,
+      type: String,
+      default: 'Activo',
     },
     cantidad: {
       type: Number,
