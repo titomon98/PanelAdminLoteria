@@ -21,7 +21,7 @@ var rutaImagen;
 var url;
 
 // muestra un premio individual
-exports.mostrarPremioTipo = async (req, res, next) => {
+exports.mostrarPremioTipo = async (req, res) => {
     const premio = await Premios.find({ tipo: req.params.tipo });
     // si no hay resultados
     if(!premio) res.send('No se encontró el premio');
@@ -30,7 +30,7 @@ exports.mostrarPremioTipo = async (req, res, next) => {
 }
 
 // muestra un premio individual
-exports.mostrarPremioGeneral = async (req, res, next) => {
+exports.mostrarPremioGeneral = async (req, res) => {
     const premio = await Premios.find();
     // si no hay resultados
     if(!premio) res.send('No se encontró el premio');
