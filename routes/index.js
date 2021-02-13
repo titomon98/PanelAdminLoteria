@@ -15,6 +15,8 @@ module.exports = () => {
 
     router.get('/premios/', premiosController.mostrarPremioGeneral);
 
+    router.get('/premios/descontar/:id', premiosController.mostrarPremio);
+
     //Crear Premios
     router.post('/premios/nuevo',
         premiosController.agregarPremio,
@@ -28,7 +30,7 @@ module.exports = () => {
         premiosController.actualizarPremio
     );
 
-    router.post('/premios/descontar/:id')
+    router.post('/premios/descontar/:id', premiosController.descontarPremio);
 
     // Eliminar Premios
     router.delete('/premios/eliminar/:id', 

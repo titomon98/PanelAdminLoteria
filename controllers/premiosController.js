@@ -24,7 +24,7 @@ var url;
 exports.mostrarPremioTipo = async (req, res, next) => {
     const premio = await Premios.find({ tipo: req.params.tipo });
     // si no hay resultados
-    if(!premio) return next();
+    if(!premio) res.send('No se encontró el premio');
 
     res.send(premio);
 }
@@ -33,7 +33,16 @@ exports.mostrarPremioTipo = async (req, res, next) => {
 exports.mostrarPremioGeneral = async (req, res, next) => {
     const premio = await Premios.find();
     // si no hay resultados
-    if(!premio) return next();
+    if(!premio) res.send('No se encontró el premio');
+
+    res.send(premio);
+}
+
+// muestra un premio individual
+exports.mostrarPremio = async (req, res) => {
+    const premio = await Premios.find({ _id: req.params.id });
+    // si no hay resultados
+    if(!premio) res.send('No se encontró el premio');
 
     res.send(premio);
 }
@@ -52,23 +61,6 @@ exports.agregarPremio = async (req, res) => {
     url = nuevoPremio.url;
     
 
-}
-
-// muestra un premio individual
-exports.mostrarPremio = async (req, res, next) => {
-    const premio = await Premios.findOne({ url: req.params._id });
-    // si no hay resultados
-    if(!premio) return next();
-
-    res.render('premio', {
-        premio,
-        nombrePagina : premio.nombre,
-        barra: true,
-        tagline: 'Visualiza o modifica los datos del premio',
-        cerrarSesion: true,
-        nombre : req.user.nombre,
-        imagen : req.user.imagen
-    })
 }
 
 //enviar los datos a la db
