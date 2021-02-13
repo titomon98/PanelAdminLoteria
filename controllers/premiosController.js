@@ -88,9 +88,10 @@ exports.actualizarPremio = async (req, res) => {
 }
 
 exports.descontarPremio = async (req, res) => {
-    const premio = await Premios.findById(req.params._id);
+    const premio = await Premios.findById(req.params.id);
     if (premio.cantidad > 0){
         premio.cantidad = premio.cantidad - 1;
+        premio.save();
         try {
             res.send('El premio se ha canjeado correctamente');
         } catch (error) {
