@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 const Premios = mongoose.model('Premios');
-
+const Canjes = mongoose.model('Canjes');
 const multer = require('multer');
 const shortid = require('shortid');
 const express = require('express');
@@ -89,6 +89,10 @@ exports.actualizarPremio = async (req, res) => {
 
 exports.descontarPremio = async (req, res) => {
     const premio = await Premios.findById(req.params.id);
+    //Gerson me manda en el req.body el nombre, correo y descripcion del usuario que canjeo
+    const canjes = new Canjes(req.body);
+    const nuevoCanje = await canjes.save()
+    console.log(nuevoCanje)
     if (premio.cantidad > 0){
         premio.cantidad = premio.cantidad - 1;
         premio.save();
@@ -99,7 +103,7 @@ exports.descontarPremio = async (req, res) => {
         }
     }
     else{
-        res.send('El premio ya no se encuentra en nuestro inventario');
+        res.send('Error');
     }
         
 }

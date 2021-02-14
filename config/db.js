@@ -11,3 +11,4 @@ require('../models/Usuarios');
 require('../models/Premios');
 require('../models/Imagenes');
 require('../models/Actualizaciones');
+require('../models/Canjes');
