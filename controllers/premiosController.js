@@ -31,10 +31,10 @@ exports.mostrarPremioTipo = async (req, res) => {
 
 // muestra un premio individual
 exports.mostrarPremioGeneral = async (req, res) => {
-    const premio = await Premios.find();
+    const premio = await Premios.find({cantidad: {$gte: 1}}).exec();
     // si no hay resultados
-    if(!premio) res.send('No se encontró el premio');
-
+    if(!premio) res.send('No se encontraron premios');
+    console.log(premio)
     res.send(premio);
 }
 
@@ -90,13 +90,13 @@ exports.actualizarPremio = async (req, res) => {
 exports.descontarPremio = async (req, res) => {
     const premio = await Premios.findById(req.params.id);
     //Gerson me manda en el req.body el nombre, correo y descripcion del usuario que canjeo
-    const canjes = new Canjes(req.body);
-    const nuevoCanje = await canjes.save()
-    console.log(nuevoCanje)
     if (premio.cantidad > 0){
-        premio.cantidad = premio.cantidad - 1;
-        premio.save();
         try {
+            premio.cantidad = premio.cantidad - 1;
+            premio.save();
+            const canjes = new Canjes(req.body);
+            const nuevoCanje = await canjes.save()
+        
             res.send('El premio se ha canjeado correctamente');
         } catch (error) {
             res.send('Ha ocurrido un error');
