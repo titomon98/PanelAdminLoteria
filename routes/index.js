@@ -6,6 +6,7 @@ const imagenesController = require('../controllers/imagenesController');
 const actualizacionesController = require('../controllers/actualizacionesController');
 const usuariosController = require('../controllers/usuariosController');
 const authController = require('../controllers/authController');
+const canjesController = require('../controllers/canjesController');
 
 
 
@@ -14,6 +15,8 @@ module.exports = () => {
     router.get('/premios/:tipo', premiosController.mostrarPremioTipo);
 
     router.get('/premios/', premiosController.mostrarPremioGeneral);
+
+    router.get('/premios2/', premiosController.mostrarPremioGeneral2);
 
     router.get('/premios/descontar/:id', premiosController.mostrarPremio);
 
@@ -26,7 +29,7 @@ module.exports = () => {
     router.get('/premios/:url', premiosController.mostrarPremio);
 
     // Editar Premio
-    router.post('/premios/actualizar-premio',
+    router.post('/premios/actualizar',
         premiosController.actualizarPremio
     );
 
@@ -88,6 +91,15 @@ module.exports = () => {
     );
     router.post('/actualizar-usuario', usuariosController.actualizarUsuario);
 
+    //Activar-desactivar
+    router.post('/desactivar-usuario',
+        usuariosController.desactivarUsuario
+    );
+
+    router.post('/activar-usuario',
+        usuariosController.activarUsuario
+    );
+
     // Autenticar Usuarios
     router.post('/iniciar-sesion',authController.autenticarUsuario);
     // cerrar sesion
@@ -101,7 +113,8 @@ module.exports = () => {
     //Todas las imagenes en general
     router.get('/imagenes/', imagenesController.mostrarImagenGeneral);
 
-    
+    //Canjes
+    router.get('/canjes', canjesController.mostrarCanjes);
 
 
     return router;

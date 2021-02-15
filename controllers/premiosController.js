@@ -34,7 +34,14 @@ exports.mostrarPremioGeneral = async (req, res) => {
     const premio = await Premios.find({cantidad: {$gte: 1}}).exec();
     // si no hay resultados
     if(!premio) res.send('No se encontraron premios');
-    console.log(premio)
+    res.send(premio);
+}
+
+// muestra un premio individual
+exports.mostrarPremioGeneral2 = async (req, res) => {
+    const premio = await Premios.find();
+    // si no hay resultados
+    if(!premio) res.send('No se encontraron premios');
     res.send(premio);
 }
 
@@ -51,16 +58,10 @@ exports.mostrarPremio = async (req, res) => {
 exports.agregarPremio = async (req, res) => {
     const premio = new Premios(req.body);
 
-    //temporal
-    premio.ubicacion = 'para el futuro';
-    premio.imagen = 'Aqui va el link';
-
     // almacenarlo en la base de datos
     const nuevoPremio = await premio.save()
 
-    url = nuevoPremio.url;
-    
-
+    res.send('Premio ingresado correctamente')
 }
 
 //enviar los datos a la db

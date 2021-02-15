@@ -89,6 +89,30 @@ exports.actualizarUsuario = async (req, res) => {
     }
 }
 
+exports.activarUsuario = async (req, res) => {
+    const usuario = await Usuarios.findById(req.body._id);
+    usuario.estado = 'Activo';
+    try {
+        await usuario.save();
+        res.send('Ingreso correcto')
+    } catch (error) {
+        req.flash('error', error);
+        res.send('Ha ocurrido un error')
+    }
+}
+
+exports.desactivarUsuario = async (req, res) => {
+    const usuario = await Usuarios.findById(req.body._id);
+    usuario.estado = 'Inactivo';
+    try {
+        await usuario.save();
+        res.send('Ingreso correcto')
+    } catch (error) {
+        req.flash('error', error);
+        res.send('Ha ocurrido un error')
+    }
+}
+
 // sanitizar y validar el formulario de editar perfiles
 exports.validarPerfil = (req, res, next) => {
     // sanitizar
