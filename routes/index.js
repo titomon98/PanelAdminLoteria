@@ -16,7 +16,7 @@ module.exports = () => {
 
     router.get('/premios/', premiosController.mostrarPremioGeneral);
 
-    router.get('/premios/:departamento', premiosController.mostrarPremioDepartamento);
+    router.get('/premios/dep/:departamento', premiosController.mostrarPremioDepartamento);
 
     router.get('/premios2/', premiosController.mostrarPremioGeneral2);
 
