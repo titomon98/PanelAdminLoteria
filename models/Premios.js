@@ -65,6 +65,18 @@ const premiosSchema =  new mongoose.Schema({
     cantidad: {
       type: Number,
       required: 'La cantidad de premios disponible es obligatoria',
+    },
+    pais: {
+      type: String,
+      default: 'Guatemala',
+    },
+    departamento: {
+      type: String,
+      required: 'El departamento es obligatorio'
+    },
+    municipio: {
+      type: String,
+      default: 'Pendiente',
     }
 });
 

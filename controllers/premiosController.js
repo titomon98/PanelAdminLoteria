@@ -29,6 +29,14 @@ exports.mostrarPremioTipo = async (req, res) => {
     res.send(premio);
 }
 
+exports.mostrarPremioDepartamento = async (req, res) => {
+    const premio = await Premios.find({ departamento: req.params.departamento });
+    // si no hay resultados
+    if(!premio) res.send('No se encontraron premios');
+
+    res.send(premio);
+}
+
 // muestra un premio individual
 exports.mostrarPremioGeneral = async (req, res) => {
     const premio = await Premios.find({cantidad: {$gte: 1}}).exec();

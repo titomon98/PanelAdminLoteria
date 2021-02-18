@@ -5,6 +5,10 @@ const slug = require('slug');
 const shortid = require('shortid');
 
 const actualizacionesSchema =  new mongoose.Schema({
+    numero: {
+        type: Number,
+        required: 'El número de actualización es obligatoria'
+    },
     descripcion: {
         type: String,
         trim: true,

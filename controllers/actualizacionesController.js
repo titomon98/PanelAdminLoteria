@@ -1,24 +1,13 @@
 const mongoose = require('mongoose');
 const Actualizaciones = mongoose.model('Actualizaciones');
 
-exports.formularioNuevaActualizacion = (req, res) => {
-    res.render('nueva-actualizacion', {
-        nombrePagina: 'Nueva Actualización',
-        tagline: 'Llena el formulario para ingresar nueva actualización',
-        cerrarSesion: true,
-        nombre : req.user.nombre,
-        imagen : req.user.imagen
-    })
-}
-
 // agrega las actualizaciones a la base de datos
 exports.agregarActualizacion = async (req, res) => {
     const actualizacion = new Actualizaciones(req.body);
     // almacenarlo en la base de datos
     const nuevaActualizacion = await actualizacion.save();
     // redireccionar
-    res.redirect(`/actualizaciones/${nuevaActualizacion.url}`);
-
+    res.send('Actualización agregada correctamente');
 }
 
 // muestra una actualizacion individual
@@ -36,6 +25,13 @@ exports.mostrarActualizacion = async (req, res, next) => {
         nombre : req.user.nombre,
         imagen : req.user.imagen
     })
+}
+
+exports.actualizacionPlayStore = async (req, res) => {
+    const actualizaciones = await Actualizaciones.find();
+    if(!actualizaciones) res.send('Error');
+
+    res.send(actualizaciones);
 }
 
 

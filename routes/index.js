@@ -16,6 +16,8 @@ module.exports = () => {
 
     router.get('/premios/', premiosController.mostrarPremioGeneral);
 
+    router.get('/premios/:departamento', premiosController.mostrarPremioDepartamento);
+
     router.get('/premios2/', premiosController.mostrarPremioGeneral2);
 
     router.get('/premios/descontar/:id', premiosController.mostrarPremio);
@@ -61,12 +63,13 @@ module.exports = () => {
         imagenesController.editarImagen
     );
 
-     //Crear Actualizaciones
-    router.get('/actualizaciones/nueva', 
-        actualizacionesController.formularioNuevaActualizacion
+    //Enviar actualizaciones Play Store
+    router.get('/actualizaciones/playstore', 
+        actualizacionesController.actualizacionPlayStore
     );
-    router.post('/actualizaciones/nueva', 
-        actualizacionesController.validarActualizacion,
+
+     //Crear Actualizaciones
+    router.post('/actualizaciones/nueva',
         actualizacionesController.agregarActualizacion,
     );
     
