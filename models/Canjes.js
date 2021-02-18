@@ -20,6 +20,15 @@ const canjesSchema =  new mongoose.Schema({
        type: String,
        lowercase:true
     },
+    nombre_premio: {
+      type: String,
+    },
+    id_premio: {
+      type: String,
+    },
+    departamento: {
+      type: String,
+    },
 });
 
 canjesSchema.pre('save', function(next) {
