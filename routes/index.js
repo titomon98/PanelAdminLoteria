@@ -37,10 +37,12 @@ module.exports = () => {
 
     router.post('/premios/descontar/:id', premiosController.descontarPremio);
 
-    // Eliminar Premios
-    router.delete('/premios/eliminar/:id', 
-        premiosController.eliminarPremio
-    );
+
+    //endpoints
+    //Imagen individual por id
+    router.get('/imagenes/:id', imagenesController.mostrarImagenId);
+    //Todas las imagenes en general
+    router.get('/imagenes/', imagenesController.mostrarImagenGeneral);
 
     //Crear Imagenes
     router.get('/imagenes/nueva',  
@@ -63,6 +65,9 @@ module.exports = () => {
         imagenesController.editarImagen
     );
 
+
+
+    //ACTUALIZACIONES
     //Enviar actualizaciones Play Store
     router.get('/actualizaciones/playstore', 
         actualizacionesController.actualizacionPlayStore
@@ -86,6 +91,18 @@ module.exports = () => {
     );
 
 
+    //Canjes
+    router.get('/canjes', canjesController.mostrarCanjes);
+
+    // Editar Imagen
+    router.get('/canjes/editar/:url', 
+        imagenesController.formEditarImagen
+    );
+    router.post('/canjes/editar/:url', 
+        imagenesController.validarImagen,
+        imagenesController.editarImagen
+    );
+
     //USUARIOS
     router.get('/usuarios', usuariosController.mostrarUsuariosGeneral);
     // Crear Usuarios
@@ -103,21 +120,16 @@ module.exports = () => {
         usuariosController.activarUsuario
     );
 
+
+
     // Autenticar Usuarios
-    router.post('/iniciar-sesion',authController.autenticarUsuario);
+    router.post('/iniciar-sesion',authController.iniciarSesion);
     // cerrar sesion
     router.get('/cerrar-sesion',
         authController.cerrarSesion
     );
 
-    //endpoints
-    //Imagen individual por id
-    router.get('/imagenes/:id', imagenesController.mostrarImagenId);
-    //Todas las imagenes en general
-    router.get('/imagenes/', imagenesController.mostrarImagenGeneral);
-
-    //Canjes
-    router.get('/canjes', canjesController.mostrarCanjes);
+   
 
 
     return router;

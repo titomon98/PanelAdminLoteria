@@ -104,7 +104,7 @@ exports.descontarPremio = async (req, res) => {
             premio.cantidad = premio.cantidad - 1;
             premio.save();
             const canjes = new Canjes(req.body);
-            const nuevoCanje = await canjes.save()
+            const nuevoCanje = await canjes.save();
         
             res.send('El premio se ha canjeado correctamente');
         } catch (error) {
@@ -116,13 +116,3 @@ exports.descontarPremio = async (req, res) => {
     }
         
 }
-
-exports.eliminarPremio = async (req, res) => {
-    const { id } = req.params;
-
-    const premio = await Premios.findById(id);
-
-    premio.remove();
-    res.status(200).send('Premio Eliminado Correctamente');    
-}
-

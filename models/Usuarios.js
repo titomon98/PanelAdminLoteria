@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 mongoose.Promise = global.Promise;
-const bcrypt = require('bcrypt');
+const md6 = require('md5');
 
 const usuariosSchema = new mongoose.Schema({
     email: {
@@ -25,7 +25,7 @@ const usuariosSchema = new mongoose.Schema({
 // Método para hashear los passwords
 usuariosSchema.pre('save', async function(next) {
     // si no esta hasheado
-    const hash = await bcrypt.hash(this.password, 12);
+    const hash = await md5(this.password);
     this.password = hash;
     next();
 });
@@ -37,12 +37,5 @@ usuariosSchema.post('save', function(error, doc, next) {
         next(error);
     }
 });
-
-// Autenticar Usuarios
-usuariosSchema.methods = {
-    compararPassword: function(password) {
-        return bcrypt.compareSync(password, this.password);
-    }
-}
 
 module.exports = mongoose.model('Usuarios', usuariosSchema);

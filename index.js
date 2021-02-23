@@ -82,7 +82,7 @@ app.use((error, req, res) => {
 //app.listen(process.env.PUERTO);
 
 //puerto asignado por heroku
- const host = '0.0.0.0';
+const host = '0.0.0.0';
 const port = process.env.PORT;
 
 app.listen(port, host, () => {
