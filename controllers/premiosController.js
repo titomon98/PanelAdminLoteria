@@ -96,6 +96,30 @@ exports.actualizarPremio = async (req, res) => {
     }
 }
 
+exports.activarPremio = async (req, res) => {
+    const premio = await Premios.findById(req.body._id);
+    premio.estado = 'Activo';
+    try {
+        await premio.save();
+        res.send('Ingreso correcto')
+    } catch (error) {
+        req.flash('error', error);
+        res.send('Ha ocurrido un error')
+    }
+}
+
+exports.desactivarPremio = async (req, res) => {
+    const premio = await Premios.findById(req.body._id);
+    premio.estado = 'Inactivo';
+    try {
+        await premio.save();
+        res.send('Ingreso correcto')
+    } catch (error) {
+        req.flash('error', error);
+        res.send('Ha ocurrido un error')
+    }
+}
+
 exports.descontarPremio = async (req, res) => {
     const premio = await Premios.findById(req.params.id);
     //Gerson me manda en el req.body el nombre, correo y descripcion del usuario que canjeo
@@ -116,3 +140,5 @@ exports.descontarPremio = async (req, res) => {
     }
         
 }
+
+//faltan activar y desactivar

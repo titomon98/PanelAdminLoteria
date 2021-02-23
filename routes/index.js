@@ -35,6 +35,10 @@ module.exports = () => {
         premiosController.actualizarPremio
     );
 
+    router.post('/desactivar-premio', premiosController.desactivarPremio);
+
+    router.post('/activar-premio', premiosController.activarPremio);
+
     router.post('/premios/descontar/:id', premiosController.descontarPremio);
 
 
@@ -94,13 +98,17 @@ module.exports = () => {
     //Canjes
     router.get('/canjes', canjesController.mostrarCanjes);
 
-    // Editar Imagen
-    router.get('/canjes/editar/:url', 
-        imagenesController.formEditarImagen
+    // Editar Canje
+    router.post('/actualizar-canje/', 
+        canjesController.actualizarCanjes
     );
-    router.post('/canjes/editar/:url', 
-        imagenesController.validarImagen,
-        imagenesController.editarImagen
+
+    router.post('/cancelar-canje/', 
+        canjesController.cancelarCanjes
+    );
+
+    router.post('/reactivar-canje/', 
+        canjesController.reactivarCanjes
     );
 
     //USUARIOS

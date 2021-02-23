@@ -12,6 +12,10 @@ const canjesSchema =  new mongoose.Schema({
       type: String,
       trim: true,
     }, 
+    estado: {
+      type: String,
+      default: 'Activo',
+    },
     correo: {
        type: String,
        trim: true,
@@ -32,9 +36,6 @@ const canjesSchema =  new mongoose.Schema({
 });
 
 canjesSchema.pre('save', function(next) {
-
-    
-
     // crear la url
     const url = slug(this.nombre);
     this.url = `${url}-${shortid.generate()}`;
