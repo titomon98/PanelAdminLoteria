@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 mongoose.Promise = global.Promise;
-const md6 = require('md5');
+const md5 = require('md5');
 
 const usuariosSchema = new mongoose.Schema({
     email: {

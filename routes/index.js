@@ -113,6 +113,7 @@ module.exports = () => {
 
     //USUARIOS
     router.get('/usuarios', usuariosController.mostrarUsuariosGeneral);
+    router.get('/usuarios/criterios/:buscar/:criterio', usuariosController.criteriosUsuarios);
     // Crear Usuarios
     router.post('/crear-usuario', 
         usuariosController.crearUsuario
