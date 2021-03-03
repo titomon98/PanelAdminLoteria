@@ -48,25 +48,12 @@ module.exports = () => {
     //Todas las imagenes en general
     router.get('/imagenes/', imagenesController.mostrarImagenGeneral);
 
-    //Crear Imagenes
-    router.get('/imagenes/nueva',  
-        imagenesController.formularioNuevaImagen
-    );
-    router.post('/imagenes/nueva', 
-        imagenesController.validarImagen,
-        imagenesController.agregarImagen
-    );
-
     // Mostrar Imagen (singular)
     router.get('/imagenes/:url', imagenesController.mostrarImagen);
 
     // Editar Imagen
-    router.get('/imagenes/editar/:url', 
-        imagenesController.formEditarImagen
-    );
-    router.post('/imagenes/editar/:url', 
-        imagenesController.validarImagen,
-        imagenesController.editarImagen
+    router.post('/imagenes/actualizar',
+        imagenesController.actualizarImagen
     );
 
 
