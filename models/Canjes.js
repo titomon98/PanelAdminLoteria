@@ -33,6 +33,10 @@ const canjesSchema =  new mongoose.Schema({
     departamento: {
       type: String,
     },
+    registro:{
+      type: Date,
+      default: Date.now()
+    },
 });
 
 canjesSchema.pre('save', function(next) {

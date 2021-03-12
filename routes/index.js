@@ -18,6 +18,8 @@ module.exports = () => {
 
     router.get('/premios/dep/:departamento', premiosController.mostrarPremioDepartamento);
 
+    router.get('/premios/criterios/:buscar/:criterio', premiosController.criteriosPremios);
+
     router.get('/premios2/', premiosController.mostrarPremioGeneral2);
 
     router.get('/premios/descontar/:id', premiosController.mostrarPremio);
@@ -37,8 +39,6 @@ module.exports = () => {
 
     router.post('/desactivar-premio', premiosController.desactivarPremio);
 
-    router.post('/activar-premio', premiosController.activarPremio);
-
     router.post('/premios/descontar/:id', premiosController.descontarPremio);
 
 
@@ -47,6 +47,8 @@ module.exports = () => {
     router.get('/imagenes/:id', imagenesController.mostrarImagenId);
     //Todas las imagenes en general
     router.get('/imagenes/', imagenesController.mostrarImagenGeneral);
+
+    router.get('/imagenes/criterios/:buscar/:criterio', imagenesController.criteriosImagenes);
 
     // Mostrar Imagen (singular)
     router.get('/imagenes/:url', imagenesController.mostrarImagen);

@@ -24,6 +24,21 @@ exports.mostrarImagen = async (req, res, next) => {
     })
 }
 
+exports.criteriosImagenes = async (req, res) => {
+    var imagen;
+    if (req.params.criterio === 'nombre'){
+        imagen = await Imagenes.find({nombre: { $regex: '.*' + req.params.buscar + '.*' } });
+    }
+    else if (req.params.criterio === 'numero'){
+        imagen = await Imagenes.find({id: req.params.buscar });
+    }
+    
+    // si no hay resultados
+    if(!imagen) res.send('No hay imágenes registradas con esos parámetros');
+
+    res.send(imagen);
+}
+
 exports.actualizarImagen = async (req, res) => {
     const imagen = await Imagenes.findById(req.body._id);
     imagen.urlC = req.body.imagen;
@@ -45,37 +60,9 @@ exports.mostrarImagenId = async (req, res, next) => {
 }
 
 // muestra una imagen individual
-exports.mostrarImagenGeneral = async (req, res, next) => {
+exports.mostrarImagenGeneral = async (req, res) => {
     const imagenes = await Imagenes.find();
     // si no hay resultados
-    if(!imagenes) return next();
+    if(!imagenes) res.send('Ocurrió un error');
     res.send(imagenes);
 }
-
-// Opciones de Multer
-const configuracionMulter = {
-    limits : { fileSize : 10000000 },
-    storage: fileStorage = multer.diskStorage({
-        destination : (req, file, cb) => {
-            cb(null, __dirname+'../../public/uploads/images');
-        }, 
-        filename : (req, file, cb) => {
-            const extension = file.mimetype.split('/')[1];
-            nombreImagen = `${shortid.generate()}.${extension}`;
-            rutaImagen = './public/uploads/images' + '/' + nombreImagen;
-            cb(null, nombreImagen);
-            
-        }
-    }),
-    fileFilter(req, file, cb) {
-        if(file.mimetype === 'image/jpeg' || file.mimetype === 'image/png') {
-            // el callback se ejecuta como true o false : true cuando la imagen se acepta
-
-            cb(null, true);
-        } else {
-            cb(new Error('Formato No Válido'));
-        }
-    }
-}
-
-const upload = multer(configuracionMulter).single('guardar');

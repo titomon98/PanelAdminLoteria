@@ -1,24 +1,9 @@
 const mongoose = require('mongoose');
 const Premios = mongoose.model('Premios');
 const Canjes = mongoose.model('Canjes');
-const multer = require('multer');
-const shortid = require('shortid');
 const express = require('express');
 const router = express.Router();
 router.use(express.static('uploads'));
-
-
-var cloudinary = require('cloudinary').v2;
-cloudinary.config({
-    cloud_name: 'dxj44eizq',
-    api_key: '288216134484757',
-    api_secret: 'tsARZ4LZud-EI_pr7rQaBAq9k6s'
-})
-
-
-var nombreImagen;
-var rutaImagen;
-var url;
 
 // muestra un premio individual
 exports.mostrarPremioTipo = async (req, res) => {
@@ -40,6 +25,13 @@ exports.mostrarPremioDepartamento = async (req, res) => {
 // muestra un premio individual
 exports.mostrarPremioGeneral = async (req, res) => {
     const premio = await Premios.find({cantidad: {$gte: 1}}).exec();
+    premio.forEach(arrayPremio => {
+        var temporal = arrayPremio.vencimiento.toISOString().substring(0,10);
+        console.log(temporal)
+        var temporal2 = temporal.toString();
+        arrayPremio.vencimiento = null;
+        arrayPremio.vencimiento = temporal;
+    });
     // si no hay resultados
     if(!premio) res.send('No se encontraron premios');
     res.send(premio);
@@ -47,7 +39,7 @@ exports.mostrarPremioGeneral = async (req, res) => {
 
 // muestra un premio individual
 exports.mostrarPremioGeneral2 = async (req, res) => {
-    const premio = await Premios.find();
+    const premio = await Premios.find().sort({creacion:-1});
     // si no hay resultados
     if(!premio) res.send('No se encontraron premios');
     res.send(premio);
@@ -58,6 +50,27 @@ exports.mostrarPremio = async (req, res) => {
     const premio = await Premios.find({ _id: req.params.id });
     // si no hay resultados
     if(!premio) res.send('No se encontró el premio');
+
+    res.send(premio);
+}
+
+exports.criteriosPremios= async (req, res) => {
+    var premio;
+    if (req.params.criterio === 'nombre'){
+        premio = await Premios.find({nombre: { $regex: '.*' + req.params.buscar + '.*' } });
+    }
+    else if (req.params.criterio === 'tipo'){
+        premio = await Premios.find({tipo: req.params.buscar});
+    }
+    else if (req.params.criterio === 'departamento'){
+        premio = await Premios.find({departamento: { $regex: '.*' + req.params.buscar + '.*' } });
+    }
+    else if (req.params.criterio === 'empresa'){
+        premio = await Premios.find({empresa: { $regex: '.*' + req.params.buscar + '.*' } });
+    }
+    
+    // si no hay resultados
+    if(!premio) res.send('No hay imágenes registradas con esos parámetros');
 
     res.send(premio);
 }
@@ -87,18 +100,7 @@ exports.actualizarPremio = async (req, res) => {
     premio.imagen = req.body.imagen;
     premio.cantidad = req.body.cantidad;
     premio.estado = 'Activo';
-    try {
-        await premio.save();
-        res.send('Ingreso correcto')
-    } catch (error) {
-        req.flash('error', error);
-        res.send('Ha ocurrido un error')
-    }
-}
-
-exports.activarPremio = async (req, res) => {
-    const premio = await Premios.findById(req.body._id);
-    premio.estado = 'Activo';
+    premio.departamento = req.body.departamento;
     try {
         await premio.save();
         res.send('Ingreso correcto')
@@ -109,15 +111,8 @@ exports.activarPremio = async (req, res) => {
 }
 
 exports.desactivarPremio = async (req, res) => {
-    const premio = await Premios.findById(req.body._id);
-    premio.estado = 'Inactivo';
-    try {
-        await premio.save();
-        res.send('Ingreso correcto')
-    } catch (error) {
-        req.flash('error', error);
-        res.send('Ha ocurrido un error')
-    }
+    const premio = Premios.findOneAndDelete({_id : req.body._id}).exec();
+    res.send('Eliminacion correcta')
 }
 
 exports.descontarPremio = async (req, res) => {
@@ -140,5 +135,3 @@ exports.descontarPremio = async (req, res) => {
     }
         
 }
-
-//faltan activar y desactivar
