@@ -14,7 +14,7 @@ const expressValidator = require('express-validator');
 const flash = require('connect-flash');
 const createError = require('http-errors');
 const passport = require('./config/passport');
-require('dotenv').config({ path : 'variables.env'});
+require('dotenv').config({ path: 'variables.env' });
 
 const app = express();
 
@@ -24,11 +24,11 @@ app.use(cors())
 
 // habilitar body-parser
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.urlencoded({ extended: true }));
 
 
 // habilitar handlebars como view
-app.engine('handlebars', 
+app.engine('handlebars',
     exphbs({
         defaultLayout: 'layout',
         helpers: require('./helpers/handlebars')
@@ -46,7 +46,7 @@ app.use(session({
     key: process.env.KEY,
     resave: false,
     saveUninitialized: false,
-    store: new MongoStore({ mongooseConnection : mongoose.connection })
+    store: new MongoStore({ mongooseConnection: mongoose.connection })
 }));
 
 // inicializar passport
@@ -79,12 +79,12 @@ app.use((error, req, res) => {
 });
 
 
-//app.listen(process.env.PUERTO);
+app.listen(process.env.PUERTO);
 
 //puerto asignado por heroku
- const host = '0.0.0.0';
+/* const host = '0.0.0.0';
 const port = process.env.PORT;
 
 app.listen(port, host, () => {
     console.log('todo esta funcionando')
-}); 
+});  */

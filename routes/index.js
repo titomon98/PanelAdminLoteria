@@ -7,7 +7,8 @@ const actualizacionesController = require('../controllers/actualizacionesControl
 const usuariosController = require('../controllers/usuariosController');
 const authController = require('../controllers/authController');
 const canjesController = require('../controllers/canjesController');
-
+const municipiosController = require('../controllers/municipiosController');
+const departamentosController = require('../controllers/departamentosController')
 
 
 module.exports = () => {
@@ -62,23 +63,23 @@ module.exports = () => {
 
     //ACTUALIZACIONES
     //Enviar actualizaciones Play Store
-    router.get('/actualizaciones/playstore', 
+    router.get('/actualizaciones/playstore',
         actualizacionesController.actualizacionPlayStore
     );
 
-     //Crear Actualizaciones
+    //Crear Actualizaciones
     router.post('/actualizaciones/nueva',
         actualizacionesController.agregarActualizacion,
     );
-    
+
     //Mostrar datos de la actualizacion
     router.get('/actualizaciones/:url', actualizacionesController.mostrarActualizacion);
-    
+
     //Editar Actualizacion
-    router.get('/actualizaciones/editar/:url', 
+    router.get('/actualizaciones/editar/:url',
         actualizacionesController.formEditarActualizacion
     );
-    router.post('/actualizaciones/editar/:url', 
+    router.post('/actualizaciones/editar/:url',
         actualizacionesController.validarActualizacion,
         actualizacionesController.editarActualizacion
     );
@@ -88,15 +89,15 @@ module.exports = () => {
     router.get('/canjes', canjesController.mostrarCanjes);
 
     // Editar Canje
-    router.post('/actualizar-canje/', 
+    router.post('/actualizar-canje/',
         canjesController.actualizarCanjes
     );
 
-    router.post('/cancelar-canje/', 
+    router.post('/cancelar-canje/',
         canjesController.cancelarCanjes
     );
 
-    router.post('/reactivar-canje/', 
+    router.post('/reactivar-canje/',
         canjesController.reactivarCanjes
     );
 
@@ -104,7 +105,7 @@ module.exports = () => {
     router.get('/usuarios', usuariosController.mostrarUsuariosGeneral);
     router.get('/usuarios/criterios/:buscar/:criterio', usuariosController.criteriosUsuarios);
     // Crear Usuarios
-    router.post('/crear-usuario', 
+    router.post('/crear-usuario',
         usuariosController.crearUsuario
     );
     router.post('/actualizar-usuario', usuariosController.actualizarUsuario);
@@ -121,14 +122,19 @@ module.exports = () => {
 
 
     // Autenticar Usuarios
-    router.post('/iniciar-sesion',authController.iniciarSesion);
+    router.post('/iniciar-sesion', authController.iniciarSesion);
     // cerrar sesion
     router.get('/cerrar-sesion',
         authController.cerrarSesion
     );
 
-   
+    //MUNICIPIOS
+    router.get('/municipios/dep/:departamento', municipiosController.mostrarMunicipioDepartamento);
+    router.post('/crear-municipio', municipiosController.agregarMunicipio);
 
+    //DEPARTAMENTOS
+    router.get('/departamentos', departamentosController.mostrarDepartamentosGeneral);
+    router.post('/crear-departamento', departamentosController.agregarDepartamentos);
 
     return router;
 }

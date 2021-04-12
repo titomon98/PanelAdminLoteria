@@ -9,7 +9,7 @@ router.use(express.static('uploads'));
 exports.mostrarPremioTipo = async (req, res) => {
     const premio = await Premios.find({ tipo: req.params.tipo });
     // si no hay resultados
-    if(!premio) res.send('No se encontró el premio');
+    if (!premio) res.send('No se encontró el premio');
 
     res.send(premio);
 }
@@ -17,31 +17,24 @@ exports.mostrarPremioTipo = async (req, res) => {
 exports.mostrarPremioDepartamento = async (req, res) => {
     const premio = await Premios.find({ departamento: req.params.departamento });
     // si no hay resultados
-    if(!premio) res.send('No se encontraron premios');
+    if (!premio) res.send('No se encontraron premios');
 
     res.send(premio);
 }
 
 // muestra un premio individual
 exports.mostrarPremioGeneral = async (req, res) => {
-    const premio = await Premios.find({cantidad: {$gte: 1}}).exec();
-    premio.forEach(arrayPremio => {
-        var temporal = arrayPremio.vencimiento.toISOString().substring(0,10);
-        console.log(temporal)
-        var temporal2 = temporal.toString();
-        arrayPremio.vencimiento = null;
-        arrayPremio.vencimiento = temporal;
-    });
+    const premio = await Premios.find({ cantidad: { $gte: 1 } }).exec();
     // si no hay resultados
-    if(!premio) res.send('No se encontraron premios');
+    if (!premio) res.send('No se encontraron premios');
     res.send(premio);
 }
 
 // muestra un premio individual
 exports.mostrarPremioGeneral2 = async (req, res) => {
-    const premio = await Premios.find().sort({creacion:-1});
+    const premio = await Premios.find().sort({ creacion: -1 });
     // si no hay resultados
-    if(!premio) res.send('No se encontraron premios');
+    if (!premio) res.send('No se encontraron premios');
     res.send(premio);
 }
 
@@ -49,28 +42,28 @@ exports.mostrarPremioGeneral2 = async (req, res) => {
 exports.mostrarPremio = async (req, res) => {
     const premio = await Premios.find({ _id: req.params.id });
     // si no hay resultados
-    if(!premio) res.send('No se encontró el premio');
+    if (!premio) res.send('No se encontró el premio');
 
     res.send(premio);
 }
 
-exports.criteriosPremios= async (req, res) => {
+exports.criteriosPremios = async (req, res) => {
     var premio;
-    if (req.params.criterio === 'nombre'){
-        premio = await Premios.find({nombre: { $regex: '.*' + req.params.buscar + '.*' } });
+    if (req.params.criterio === 'nombre') {
+        premio = await Premios.find({ nombre: { $regex: '.*' + req.params.buscar + '.*' } });
     }
-    else if (req.params.criterio === 'tipo'){
-        premio = await Premios.find({tipo: req.params.buscar});
+    else if (req.params.criterio === 'tipo') {
+        premio = await Premios.find({ tipo: req.params.buscar });
     }
-    else if (req.params.criterio === 'departamento'){
-        premio = await Premios.find({departamento: { $regex: '.*' + req.params.buscar + '.*' } });
+    else if (req.params.criterio === 'departamento') {
+        premio = await Premios.find({ departamento: { $regex: '.*' + req.params.buscar + '.*' } });
     }
-    else if (req.params.criterio === 'empresa'){
-        premio = await Premios.find({empresa: { $regex: '.*' + req.params.buscar + '.*' } });
+    else if (req.params.criterio === 'empresa') {
+        premio = await Premios.find({ empresa: { $regex: '.*' + req.params.buscar + '.*' } });
     }
-    
+
     // si no hay resultados
-    if(!premio) res.send('No hay imágenes registradas con esos parámetros');
+    if (!premio) res.send('No hay imágenes registradas con esos parámetros');
 
     res.send(premio);
 }
@@ -111,27 +104,27 @@ exports.actualizarPremio = async (req, res) => {
 }
 
 exports.desactivarPremio = async (req, res) => {
-    const premio = Premios.findOneAndDelete({_id : req.body._id}).exec();
+    const premio = Premios.findOneAndDelete({ _id: req.body._id }).exec();
     res.send('Eliminacion correcta')
 }
 
 exports.descontarPremio = async (req, res) => {
     const premio = await Premios.findById(req.params.id);
     //Gerson me manda en el req.body el nombre, correo y descripcion del usuario que canjeo
-    if (premio.cantidad > 0){
+    if (premio.cantidad > 0) {
         try {
             premio.cantidad = premio.cantidad - 1;
             premio.save();
             const canjes = new Canjes(req.body);
             const nuevoCanje = await canjes.save();
-        
+
             res.send('El premio se ha canjeado correctamente');
         } catch (error) {
             res.send('Ha ocurrido un error');
         }
     }
-    else{
+    else {
         res.send('Error');
     }
-        
+
 }
