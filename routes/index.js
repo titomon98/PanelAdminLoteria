@@ -9,6 +9,7 @@ const authController = require('../controllers/authController');
 const canjesController = require('../controllers/canjesController');
 const municipiosController = require('../controllers/municipiosController');
 const departamentosController = require('../controllers/departamentosController')
+const reversoController = require('../controllers/reversoController')
 
 
 module.exports = () => {
@@ -59,6 +60,12 @@ module.exports = () => {
         imagenesController.actualizarImagen
     );
 
+    //IMAGEN REVERSA
+    router.get('/reverso/', reversoController.mostrarImagenGeneral);
+    // Editar Imagen reversa
+    router.post('/reverso/actualizar',
+        reversoController.actualizarImagen
+    );
 
 
     //ACTUALIZACIONES
