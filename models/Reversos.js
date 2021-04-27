@@ -28,4 +28,4 @@ reversoSchema.pre('save', function (next) {
 })
 
 
-module.exports = mongoose.model('Reverso', reversoSchema);
+module.exports = mongoose.model('Reversos', reversoSchema);

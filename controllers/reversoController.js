@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const Reverso = mongoose.model('Reverso');
+const Reverso = mongoose.model('Reversos');
 const express = require('express');
 const router = express.Router();
 router.use(express.static('uploads'));

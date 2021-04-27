@@ -14,4 +14,4 @@ require('../models/Actualizaciones');
 require('../models/Canjes');
 require('../models/Departamentos');
 require('../models/Municipios');
-require('../models/Reverso');
+require('../models/Reversos');
