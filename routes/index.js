@@ -137,7 +137,7 @@ module.exports = () => {
 
     //MUNICIPIOS
     router.get('/municipios/dep/:departamento', municipiosController.mostrarMunicipioDepartamento);
-    router.get('/municipios', departamentosController.mostrarMunicipios);
+    router.get('/municipios', municipiosController.mostrarMunicipios);
     router.post('/crear-municipio', municipiosController.agregarMunicipio);
 
     //DEPARTAMENTOS
