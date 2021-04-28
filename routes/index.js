@@ -143,6 +143,8 @@ module.exports = () => {
     //DEPARTAMENTOS
     router.get('/departamentos', departamentosController.mostrarDepartamentosGeneral);
     router.post('/crear-departamento', departamentosController.agregarDepartamentos);
+    router.get('/departamentos/:dep', departamentosController.mostrarDepartamentoEspecifico);
+    router.post('/actualizar-departamento', departamentosController.actualizarDepartamento);
 
     return router;
 }
