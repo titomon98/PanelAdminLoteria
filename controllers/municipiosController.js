@@ -9,6 +9,14 @@ exports.mostrarMunicipioDepartamento = async (req, res) => {
     res.send(premio);
 }
 
+exports.mostrarMunicipios = async (req, res) => {
+    const premio = await Municipios.find();
+    // si no hay resultados
+    if (!premio) res.send('No se encontraron premios');
+
+    res.send(premio);
+}
+
 // agrega los premios a la base de datos
 exports.agregarMunicipio = async (req, res) => {
     const municipios = new Municipios(req.body);
