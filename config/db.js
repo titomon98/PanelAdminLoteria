@@ -15,3 +15,4 @@ require('../models/Canjes');
 require('../models/Departamentos');
 require('../models/Municipios');
 require('../models/Reversos');
+require('../models/Empresas');

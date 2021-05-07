@@ -10,6 +10,7 @@ const canjesController = require('../controllers/canjesController');
 const municipiosController = require('../controllers/municipiosController');
 const departamentosController = require('../controllers/departamentosController')
 const reversoController = require('../controllers/reversoController')
+const empresasController = require('../controllers/empresasController')
 
 
 module.exports = () => {
@@ -145,6 +146,10 @@ module.exports = () => {
     router.post('/crear-departamento', departamentosController.agregarDepartamentos);
     router.get('/departamentos/:dep', departamentosController.mostrarDepartamentoEspecifico);
     router.post('/actualizar-departamento', departamentosController.actualizarDepartamento);
+
+    //EMPRESAS
+    router.get('/empresas', empresasController.mostrarEmpresasGeneral);
+
 
     return router;
 }

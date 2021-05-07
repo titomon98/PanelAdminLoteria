@@ -56,6 +56,15 @@ const premiosSchema = new mongoose.Schema({
     type: String,
     required: 'La imagen es obligatoria',
   },
+  imagen2: {
+    type: String,
+  },
+  imagen3: {
+    type: String,
+  },
+  imagen4: {
+    type: String,
+  },
   url: {
     type: String,
     lowercase: true

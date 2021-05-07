@@ -91,6 +91,9 @@ exports.actualizarPremio = async (req, res) => {
     premio.empresa = req.body.empresa;
     premio.vencimiento = req.body.vencimiento;
     premio.imagen = req.body.imagen;
+    premio.imagen2 = req.body.imagen2;
+    premio.imagen3 = req.body.imagen3;
+    premio.imagen4 = req.body.imagen4;
     premio.cantidad = req.body.cantidad;
     premio.estado = 'Activo';
     premio.departamento = req.body.departamento;
