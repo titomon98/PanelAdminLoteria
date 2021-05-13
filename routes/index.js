@@ -11,10 +11,11 @@ const municipiosController = require('../controllers/municipiosController');
 const departamentosController = require('../controllers/departamentosController')
 const reversoController = require('../controllers/reversoController')
 const empresasController = require('../controllers/empresasController')
+const productosController = require('../controllers/productosController')
 
 
 module.exports = () => {
-
+    //PREMIOS
     router.get('/premios/:tipo', premiosController.mostrarPremioTipo);
 
     router.get('/premios/', premiosController.mostrarPremioGeneral);
@@ -150,6 +151,8 @@ module.exports = () => {
     //EMPRESAS
     router.get('/empresas', empresasController.mostrarEmpresasGeneral);
 
+    //PRODUCTOS
+    router.get('/productos', productosController.mostrarProductoGeneral);
 
     return router;
 }
